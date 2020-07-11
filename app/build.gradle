@@ -1,6 +1,14 @@
 apply plugin: 'com.android.application'
 
 android {
+    signingConfigs {
+        Prajjwal {
+            storeFile file('C:\\Users\\prajj\\Documents\\My Apps\\mykeys.jks')
+            storePassword 'leopards$'
+            keyAlias 'DistributionKey'
+            keyPassword 'leopards$'
+        }
+    }
     compileSdkVersion 30
     buildToolsVersion "30.0.0"
 
@@ -12,12 +20,14 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        signingConfig signingConfigs.Prajjwal
     }
 
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.Prajjwal
         }
     }
 }

@@ -42,10 +42,10 @@ public class MainActivity extends AppCompatActivity {
                         int l = show.length();
                         char c;
                         int j = 0;
-                        for (int i = 0; i < l; i++) {
+                        for (int i = l - 1; i >= 0; i--) {
                             c = show.charAt(i);
                             if (c == '.') j = 1;
-                            else if (c == '^' || c == '%' || c == '/' || c == '*' || c == '×' || c == '+' || c == '-') j = 0;
+                            else if (c == '^' || c == '%' || c == '/' || c == '*' || c == '×' || c == '+' || c == '-') break;
                         }
                         if (j == 0) {
                             char chr = show.charAt(show.length() - 1);
