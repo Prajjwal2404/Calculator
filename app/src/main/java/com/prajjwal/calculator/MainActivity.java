@@ -9,18 +9,15 @@ import android.widget.Button;
 import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
-    String show ;
+    String show;
     float cal;
     int count = 0;
-    int cln = 0;
     TextView output;
+    boolean minus = true;
     @SuppressLint("SetTextI18n")
-    public void input(View view){
+    public void input(View view) {
         Button click = (Button) view;
-        if (cln != 0 && click.getId() != R.id.result){
-            clean();
-        }
-        if (count < 24) {
+        if (count < 28) {
             if (click.getId() != R.id.clear && click.getId() != R.id.backspace && click.getId() != R.id.result && click.getId() != R.id.modulus
                     && click.getId() != R.id.division && click.getId() != R.id.multiplication && click.getId() !=
                     R.id.subtraction && click.getId() != R.id.addition && click.getId() != R.id.power) {
@@ -41,13 +38,13 @@ public class MainActivity extends AppCompatActivity {
                     else {
                         int l = show.length();
                         char c;
-                        int j = 0;
+                        boolean j  = true;
                         for (int i = l - 1; i >= 0; i--) {
                             c = show.charAt(i);
-                            if (c == '.') j = 1;
+                            if (c == '.') j = false;
                             else if (c == '^' || c == '%' || c == '/' || c == '*' || c == '×' || c == '+' || c == '-') break;
                         }
-                        if (j == 0) {
+                        if (j) {
                             char chr = show.charAt(show.length() - 1);
                             if (chr != '^' && chr != '%' && chr != '/' && chr != '×' && chr != '+' && chr != '-') {
                                 show = show + ".";
@@ -66,38 +63,45 @@ public class MainActivity extends AppCompatActivity {
                     click.getId() == R.id.subtraction || click.getId() == R.id.addition || click.getId() == R.id.power) {
                 CharSequence c = click.getText();
                 String s = (String) c;
-                if (count == 0) {
+                if (count == 0 && click.getId() != R.id.subtraction) {
                     show = "0" + s;
                     count = count + 2;
                 }
-                else {
+                else if (count == 0 && click.getId() == R.id.subtraction) {
+                    show = s;
+                    ++count;
+                }
+                else if (count != 0) {
                     char chr = show.charAt(show.length() - 1);
                     if (chr != '^' && chr != '%' && chr != '/' && chr != '×' && chr != '+' && chr != '-') {
                         show = show + s;
                         ++count;
                     }
+                    else if (count != 1) {
+                        show = show.substring(0,show.length() - 1);
+                        show = show + s;
+                    }
                 }
                 output.setText(show);
             }
         }
-        if (click.getId() == R.id.clear){
+        if (click.getId() == R.id.clear) {
             clean();
         }
        else if (click.getId() == R.id.result) {
            if (show != null) {
-               String out = calculate(show);
-               float w = Float.parseFloat(out);
-               int x = (int) w;
-               if (x == w) {
-                   output.setText(Integer.toString(x));
+               calculate();
+               if (minus) {
+                   float w = Float.parseFloat(show);
+                   int x = (int) w;
+                   if (x == w) show = String.valueOf(x);
+                   output.setText(show);
+                   if (x != 0) count = show.length();
+                   else count = 0;
                }
-               else {
-                   output.setText(out);
-               }
-               ++cln;
            }
        }
-       else if (click.getId() == R.id.backspace){
+       else if (click.getId() == R.id.backspace) {
             if(show != null) {
                 --count;
                 show = show.substring(0, show.length() - 1);
@@ -107,136 +111,154 @@ public class MainActivity extends AppCompatActivity {
             }
        }
     }
-    public String calculate(String s){
-        char tr = s.charAt(s.length() - 1);
-        if (tr == '^' || tr == '%' || tr == '/' || tr == '×' || tr == '+' || tr == '-' || tr == '.') {
-            s = s.substring(0, s.length() - 1);
+    public void calculate() {
+        if (show.length() == 1 && show.charAt(0) == '-') minus = false;
+        else {
+            minus = true;
+            char tr = show.charAt(show.length() - 1);
+            if (tr == '^' || tr == '%' || tr == '/' || tr == '×' || tr == '+' || tr == '-' || tr == '.') show = show.substring(0, show.length() - 1);
+            if (show.charAt(0) == '-') show = "0" + show;
+            boolean ex = false, md = false, sa = false;
+            int l = show.length();
+            char c;
+            for (int i = 0; i < l; i++) {
+                c = show.charAt(i);
+                if (c == '^') ex = true;
+                else if (c == '%' || c == '/' || c == '×') md = true;
+                else if (c == '+' || c == '-') sa = true;
+            }
+            if (ex) exp();
+            if (md) mdm();
+            if (sa) sad();
         }
+    }
+    public void exp() {
         char c;
         char d;
-        int l = s.length();
+        int l = show.length();
         int idx = l;
-        for (int i = l - 1; i >= 0; i--){
-            c = s.charAt(i);
+        for (int i = l - 1; i >= 0; i--) {
+            c = show.charAt(i);
             if (c == '^') {
-                for (int j = i - 1; j >= 0; j--){
-                    d = s.charAt(j);
-                    if(d == '^' || d == '%' || d == '/' || d == '×' || d == '+' || d == '-' || j == 0){
+                for (int j = i - 1; j >= 0; j--) {
+                    d = show.charAt(j);
+                    if (d == '^' || d == '%' || d == '/' || d == '×' || d == '+' || d == '-' || j == 0) {
                         String fr;
-                        if (j != 0){
-                            fr = s.substring(j + 1,i);
-                        }
-                        else{
-                            fr = s.substring(0,i);
+                        if (j != 0) {
+                            fr = show.substring(j + 1, i);
+                        } else {
+                            fr = show.substring(0, i);
                         }
                         String dr;
-                        dr = s.substring(i + 1,idx);
-                        cal =(float) Math.pow(Double.parseDouble(fr),Double.parseDouble(dr));
+                        dr = show.substring(i + 1, idx);
+                        cal = (float) Math.pow(Double.parseDouble(fr), Double.parseDouble(dr));
                         String n;
                         String m;
-                        if (j != 0){
-                            n = s.substring(0,j + 1);
+                        if (j != 0) {
+                            n = show.substring(0, j + 1);
                             n = n + cal;
-                        }
-                        else{
+                        } else {
                             n = cal + " ";
                             n = n.trim();
                         }
-                        if (idx != l)
-                        {
-                            m = s.substring(idx,l);
+                        if (idx != l) {
+                            m = show.substring(idx, l);
                             n = n + m;
                         }
-                        s = n;
-                        l = s.length();
+                        show = n;
+                        l = show.length();
                         i = l - 1;
                         idx = l;
                         break;
                     }
                 }
-            }
-            else {
-                if (c == '%' || c == '/' || c == '×' || c == '+' || c == '-'){
+            } else {
+                if (c == '%' || c == '/' || c == '×' || c == '+' || c == '-') {
                     idx = i;
                 }
             }
         }
-        idx = 0;
-        for (int i = 0; i < l; i++){
-            c = s.charAt(i);
+    }
+    public void mdm() {
+        char c;
+        char d;
+        int l = show.length();
+        int idx = 0;
+        for (int i = 0; i < l; i++) {
+            c = show.charAt(i);
             if (c == '%' || c == '/' || c == '×') {
-                for (int j = i + 1; j < l; j++){
-                    d = s.charAt(j);
-                    if (d == '%' || d == '/' || d == '×' || d == '+' || d == '-' || j == l-1){
+                for (int j = i + 1; j < l; j++) {
+                    d = show.charAt(j);
+                    if (d == '%' || d == '/' || d == '×' || d == '+' || d == '-' || j == l - 1) {
                         String dr;
-                        if (j != l-1){
-                            dr = s.substring(i + 1,j);
-                        }
-                        else{
-                            dr = s.substring(i + 1,l);
+                        if (j != l - 1) {
+                            dr = show.substring(i + 1, j);
+                        } else {
+                            dr = show.substring(i + 1, l);
                         }
                         String fr;
-                        fr = s.substring(idx,i);
-                        if(c == '%') cal = Float.parseFloat(fr) % Float.parseFloat(dr);
-                        if(c == '/') cal = Float.parseFloat(fr) / Float.parseFloat(dr);
-                        if(c == '×') cal = Float.parseFloat(fr) * Float.parseFloat(dr);
+                        fr = show.substring(idx, i);
+                        if (c == '%') cal = Float.parseFloat(fr) % Float.parseFloat(dr);
+                        if (c == '/') cal = Float.parseFloat(fr) / Float.parseFloat(dr);
+                        if (c == '×') cal = Float.parseFloat(fr) * Float.parseFloat(dr);
                         String n;
                         String m;
-                        if (j != l-1){
-                            n = s.substring(j,l);
+                        if (j != l - 1) {
+                            n = show.substring(j, l);
                             n = cal + n;
-                        }
-                        else{
+                        } else {
                             n = cal + " ";
                             n = n.trim();
                         }
-                        if(idx != 0){
-                            m = s.substring(0,idx);
+                        if (idx != 0) {
+                            m = show.substring(0, idx);
                             n = m + n;
                         }
-                        s = n;
-                        l = s.length();
+                        show = n;
+                        l = show.length();
                         i = 0;
                         idx = 0;
                         break;
                     }
                 }
-            }
-            else {
-                if (c == '+' || c == '-'){
+            } else {
+                if (c == '+' || c == '-') {
                     idx = i + 1;
                 }
             }
         }
-        idx = 0;
-        for (int i = 0; i < l; i++){
-            c = s.charAt(i);
-            if (c == '+' || c == '-'){
-                for (int j = i + 1; j < l; j++){
-                    d = s.charAt(j);
-                    if (d == '+' || d == '-' || j == l-1){
+    }
+    public void sad() {
+        char c;
+        char d;
+        int l = show.length();
+        int idx = 0;
+        for (int i = 0; i < l; i++) {
+            c = show.charAt(i);
+            if (c == '+' || c == '-') {
+                for (int j = i + 1; j < l; j++) {
+                    d = show.charAt(j);
+                    if (d == '+' || d == '-' || j == l - 1) {
                         String dr;
-                        if (j != l - 1){
-                            dr = s.substring(i + 1,j);
-                        }
-                        else{
-                            dr = s.substring(i + 1,l);
+                        if (j != l - 1) {
+                            dr = show.substring(i + 1, j);
+                        } else {
+                            dr = show.substring(i + 1, l);
                         }
                         String fr;
-                        fr = s.substring(idx,i);
+                        fr = show.substring(idx, i);
                         if (c == '+') cal = Float.parseFloat(fr) + Float.parseFloat(dr);
                         if (c == '-') cal = Float.parseFloat(fr) - Float.parseFloat(dr);
                         String n;
-                        if (j != l-1){
-                            n = s.substring(j,l);
+                        if (j != l - 1) {
+                            n = show.substring(j, l);
                             n = cal + n;
-                        }
-                        else{
+                        } else {
                             n = cal + " ";
                             n = n.trim();
                         }
-                        s = n;
-                        l = s.length();
+                        show = n;
+                        l = show.length();
                         i = 0;
                         idx = 0;
                         break;
@@ -244,13 +266,12 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         }
-        return s;
     }
-    public void clean(){
+    public void clean() {
         show = null;
         cal = 0.0f;
         count = 0;
-        cln = 0;
+        minus = true;
         output.setText("0");
     }
 
