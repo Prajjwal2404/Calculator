@@ -424,7 +424,6 @@ public class MainActivity extends AppCompatActivity {
             else if (show.charAt(0) == '0' && show.length() == 1) clean();
             else textshow();
         }
-        else clean();
     }
     public void clean() {
         show = null;
