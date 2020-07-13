@@ -11,71 +11,70 @@
         android:layout_width="0dp"
         android:layout_height="250dp"
         android:background="#000000"
-        android:gravity="bottom"
+        android:gravity="bottom|end"
         android:maxLines="4"
         android:paddingStart="10dp"
         android:paddingEnd="10dp"
         android:text="@string/display"
         android:textAlignment="viewEnd"
+        android:textAllCaps="false"
         android:textColor="#FFFFFF"
         android:textSize="60sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <ImageView
+        android:id="@+id/clear_icon"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:adjustViewBounds="true"
+        android:background="#000000"
+        android:clickable="true"
+        android:contentDescription="@string/clear"
+        android:focusable="true"
+        app:layout_constraintBottom_toTopOf="@+id/seven"
+        app:layout_constraintEnd_toStartOf="@+id/Obracket"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/display"
+        app:srcCompat="@drawable/rippleclear" />
+
     <Button
-        android:id="@+id/clear"
+        android:id="@+id/Obracket"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:background="@drawable/ripple_effect"
         android:gravity="center"
-        android:hapticFeedbackEnabled="true"
         android:onClick="input"
-        android:text="@string/clear"
-        android:textAlignment="gravity"
-        android:textColor="#009688"
-        android:textSize="60sp"
-        app:layout_constraintBottom_toTopOf="@+id/seven"
-        app:layout_constraintEnd_toStartOf="@+id/backspace"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/display" />
-
-    <Button
-        android:id="@+id/backspace"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:background="@drawable/ripple_effect"
-        android:gravity="center_horizontal|top"
-        android:hapticFeedbackEnabled="true"
-        android:onClick="input"
-        android:text="@string/backspace"
+        android:paddingStart="0dp"
+        android:paddingEnd="10dp"
+        android:text="@string/bracket_open"
         android:textAlignment="gravity"
         android:textColor="#009688"
         android:textSize="55sp"
-        android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/eight"
-        app:layout_constraintEnd_toStartOf="@+id/modulus"
+        app:layout_constraintEnd_toStartOf="@+id/Cbracket"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/clear"
+        app:layout_constraintStart_toEndOf="@id/clear_icon"
         app:layout_constraintTop_toBottomOf="@+id/display" />
 
     <Button
-        android:id="@+id/modulus"
+        android:id="@+id/Cbracket"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:background="@drawable/ripple_effect"
         android:gravity="center"
-        android:hapticFeedbackEnabled="true"
         android:onClick="input"
-        android:text="@string/modulus"
+        android:paddingStart="10dp"
+        android:paddingEnd="0dp"
+        android:text="@string/bracket_close"
         android:textAlignment="gravity"
         android:textColor="#009688"
-        android:textSize="60sp"
+        android:textSize="57sp"
         app:layout_constraintBottom_toTopOf="@+id/nine"
         app:layout_constraintEnd_toStartOf="@+id/division"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/backspace"
+        app:layout_constraintStart_toEndOf="@+id/Obracket"
         app:layout_constraintTop_toBottomOf="@+id/display" />
 
     <Button
@@ -84,7 +83,6 @@
         android:layout_height="0dp"
         android:background="@drawable/ripple_effect"
         android:gravity="center"
-        android:hapticFeedbackEnabled="true"
         android:onClick="input"
         android:text="@string/division"
         android:textAlignment="gravity"
@@ -93,7 +91,7 @@
         app:layout_constraintBottom_toTopOf="@+id/multiplication"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/modulus"
+        app:layout_constraintStart_toEndOf="@+id/Cbracket"
         app:layout_constraintTop_toBottomOf="@+id/display" />
 
     <Button
@@ -102,7 +100,6 @@
         android:layout_height="0dp"
         android:background="@drawable/ripple_effect"
         android:gravity="center"
-        android:hapticFeedbackEnabled="true"
         android:onClick="input"
         android:text="@string/seven"
         android:textAlignment="gravity"
@@ -112,7 +109,7 @@
         app:layout_constraintEnd_toStartOf="@+id/eight"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/clear" />
+        app:layout_constraintTop_toBottomOf="@id/clear_icon" />
 
     <Button
         android:id="@+id/eight"
@@ -120,7 +117,6 @@
         android:layout_height="0dp"
         android:background="@drawable/ripple_effect"
         android:gravity="center"
-        android:hapticFeedbackEnabled="true"
         android:onClick="input"
         android:text="@string/eight"
         android:textAlignment="gravity"
@@ -130,7 +126,7 @@
         app:layout_constraintEnd_toStartOf="@+id/nine"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/seven"
-        app:layout_constraintTop_toBottomOf="@+id/backspace" />
+        app:layout_constraintTop_toBottomOf="@+id/Obracket" />
 
     <Button
         android:id="@+id/nine"
@@ -138,7 +134,6 @@
         android:layout_height="0dp"
         android:background="@drawable/ripple_effect"
         android:gravity="center"
-        android:hapticFeedbackEnabled="true"
         android:onClick="input"
         android:text="@string/nine"
         android:textAlignment="gravity"
@@ -148,7 +143,7 @@
         app:layout_constraintEnd_toStartOf="@+id/multiplication"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/eight"
-        app:layout_constraintTop_toBottomOf="@+id/modulus" />
+        app:layout_constraintTop_toBottomOf="@+id/Cbracket" />
 
     <Button
         android:id="@+id/multiplication"
@@ -156,7 +151,6 @@
         android:layout_height="0dp"
         android:background="@drawable/ripple_effect"
         android:gravity="center"
-        android:hapticFeedbackEnabled="true"
         android:onClick="input"
         android:text="@string/multiplication"
         android:textAlignment="gravity"
@@ -174,7 +168,6 @@
         android:layout_height="0dp"
         android:background="@drawable/ripple_effect"
         android:gravity="center"
-        android:hapticFeedbackEnabled="true"
         android:onClick="input"
         android:text="@string/four"
         android:textAlignment="gravity"
@@ -192,7 +185,6 @@
         android:layout_height="0dp"
         android:background="@drawable/ripple_effect"
         android:gravity="center"
-        android:hapticFeedbackEnabled="true"
         android:onClick="input"
         android:text="@string/five"
         android:textAlignment="gravity"
@@ -210,7 +202,6 @@
         android:layout_height="0dp"
         android:background="@drawable/ripple_effect"
         android:gravity="center"
-        android:hapticFeedbackEnabled="true"
         android:onClick="input"
         android:text="@string/six"
         android:textAlignment="gravity"
@@ -228,7 +219,6 @@
         android:layout_height="0dp"
         android:background="@drawable/ripple_effect"
         android:gravity="center"
-        android:hapticFeedbackEnabled="true"
         android:onClick="input"
         android:text="@string/subtraction"
         android:textAlignment="gravity"
@@ -246,7 +236,6 @@
         android:layout_height="0dp"
         android:background="@drawable/ripple_effect"
         android:gravity="center"
-        android:hapticFeedbackEnabled="true"
         android:onClick="input"
         android:text="@string/one"
         android:textAlignment="gravity"
@@ -264,7 +253,6 @@
         android:layout_height="0dp"
         android:background="@drawable/ripple_effect"
         android:gravity="center"
-        android:hapticFeedbackEnabled="true"
         android:onClick="input"
         android:text="@string/two"
         android:textAlignment="gravity"
@@ -282,7 +270,6 @@
         android:layout_height="0dp"
         android:background="@drawable/ripple_effect"
         android:gravity="center"
-        android:hapticFeedbackEnabled="true"
         android:onClick="input"
         android:text="@string/three"
         android:textAlignment="gravity"
@@ -300,7 +287,6 @@
         android:layout_height="0dp"
         android:background="@drawable/ripple_effect"
         android:gravity="center"
-        android:hapticFeedbackEnabled="true"
         android:onClick="input"
         android:text="@string/addition"
         android:textAlignment="gravity"
@@ -318,7 +304,6 @@
         android:layout_height="0dp"
         android:background="@drawable/ripple_effect"
         android:gravity="bottom|center_horizontal"
-        android:hapticFeedbackEnabled="true"
         android:onClick="input"
         android:text="@string/power"
         android:textAlignment="gravity"
@@ -336,7 +321,6 @@
         android:layout_height="0dp"
         android:background="@drawable/ripple_effect"
         android:gravity="center"
-        android:hapticFeedbackEnabled="true"
         android:onClick="input"
         android:text="@string/zero"
         android:textAlignment="gravity"
@@ -354,7 +338,6 @@
         android:layout_height="0dp"
         android:background="@drawable/ripple_effect"
         android:gravity="center_horizontal|top"
-        android:hapticFeedbackEnabled="true"
         android:onClick="input"
         android:text="@string/decimal"
         android:textAlignment="gravity"
@@ -372,7 +355,6 @@
         android:layout_height="0dp"
         android:background="@drawable/ripple_effectresult"
         android:gravity="center"
-        android:hapticFeedbackEnabled="true"
         android:onClick="input"
         android:text="@string/result"
         android:textAlignment="gravity"
@@ -389,20 +371,41 @@
         android:layout_width="0dp"
         android:layout_height="13dp"
         android:backgroundTint="#FFFFFF"
-        app:layout_constraintBottom_toTopOf="@+id/backspace"
+        app:layout_constraintBottom_toTopOf="@+id/Obracket"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent" />
 
     <ImageView
-        android:id="@+id/cover"
+        android:id="@+id/bottomcover"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:contentDescription="@string/cover"
+        android:background="#000000"
+        android:contentDescription="@string/cover_up"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/display"
-        app:srcCompat="@android:color/black" />
+        app:layout_constraintTop_toBottomOf="@id/Cbracket" />
+
+    <ImageView
+        android:id="@+id/midcover"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="#000000"
+        android:contentDescription="@string/cover_up"
+        app:layout_constraintBottom_toBottomOf="@+id/Cbracket"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/Obracket"
+        app:layout_constraintTop_toTopOf="@+id/Cbracket" />
+
+    <ImageView
+        android:id="@+id/topcover"
+        android:layout_width="0dp"
+        android:layout_height="245dp"
+        android:background="#006964"
+        android:contentDescription="@string/cover_up"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/display" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Calculator</string>
-    <string name="clear">C</string>
-    <string name="modulus">%</string>
+    <string name="clear">clearing</string>
+    <string name="bracket_close">)</string>
     <string name="division">/</string>
     <string name="multiplication">×</string>
     <string name="subtraction">-</string>
@@ -19,8 +19,8 @@
     <string name="seven">7</string>
     <string name="eight">8</string>
     <string name="nine">9</string>
-    <string name="backspace">⇚</string>
+    <string name="bracket_open">(</string>
     <string name="display">0</string>
     <string name="divider_horizontal">separates</string>
-    <string name="cover">hider</string>
+    <string name="cover_up">covering</string>
 </resources>
