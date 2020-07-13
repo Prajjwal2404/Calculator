@@ -141,14 +141,14 @@ public class MainActivity extends AppCompatActivity {
     }
     @SuppressLint("SetTextI18n")
     public void calculate() {
-        if (show.charAt(show.length() - 1) == '(') {
+        if (show.charAt(show.length() - 1) == '(' || show.charAt(show.length() - 1) == '-') {
             char c;
             int l = show.length();
             for (int i = l - 1; i > 0 ; i--) {
                 c = show.charAt(i);
-                if (c == '(') {
+                if (c == '(' || c == '-') {
                     show = show.substring(0, show.length() - 1);
-                    --braces;
+                    if (c == '(') --braces;
                 }
                 else break;
             }
