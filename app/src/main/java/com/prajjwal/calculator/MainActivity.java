@@ -15,15 +15,15 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
-    String show;
-    float cal;
     int count = 0;
-    TextView output;
-    boolean minus = true;
     int braces = 0;
+    float cal;
+    boolean minus = true;
+    boolean cln = false;
+    String show;
     ImageView img;
     ImageView imc;
-    boolean cln = false;
+    TextView output;
     @SuppressLint("SetTextI18n")
     public void input(View view) {
         Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
