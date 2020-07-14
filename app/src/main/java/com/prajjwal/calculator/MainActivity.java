@@ -17,7 +17,7 @@ import android.widget.TextView;
 public class MainActivity extends AppCompatActivity {
     int count = 0;
     int braces = 0;
-    float cal;
+    double cal;
     boolean minus = true;
     boolean cln = false;
     String show;
@@ -129,12 +129,10 @@ public class MainActivity extends AppCompatActivity {
                 cln = true;
                 calculate();
                 if (minus) {
-                    float w = Float.parseFloat(show);
-                    int x = (int) w;
-                    if (x == w) show = String.valueOf(x);
+                    if (show.charAt(show.length() - 1) == '0' && show.charAt(show.length() - 2) == '.') show = show.substring(0,show.length() - 2);
                     textshow();
-                    if (x != 0) count = show.length();
-                    else count = 0;
+                    if (show.equals("0")) count = 0;
+                    else count = show.length();
                 }
             }
         }
@@ -254,6 +252,9 @@ public class MainActivity extends AppCompatActivity {
                 for (int j = i - 1; j >= 0; j--) {
                     d = s.charAt(j);
                     if (d == '^' || d == '/' || d == '×' || d == '+' || d == '-' || j == 0) {
+                        if (d == '-' || d == '+' && j != 0) {
+                            if (s.charAt(j - 1) == 'E' || s.charAt(j - 1) == 'e') continue;
+                        }
                         String fr;
                         if (j != 0) {
                             fr = s.substring(j + 1, i);
@@ -265,7 +266,7 @@ public class MainActivity extends AppCompatActivity {
                         String dr;
                         dr = s.substring(i + 1, idx);
                         if (dr.charAt(0) == '#') dr = "-" + dr.substring(1);
-                        cal = (float) Math.pow(Double.parseDouble(fr), Double.parseDouble(dr));
+                        cal = (Double) Math.pow(Double.parseDouble(fr), Double.parseDouble(dr));
                         String n;
                         String m;
                         if (j != 0) {
@@ -296,7 +297,9 @@ public class MainActivity extends AppCompatActivity {
             }
             else {
                 if (c == '%' || c == '/' || c == '×' || c == '+' || c == '-') {
-                    idx = i;
+                    if (c == '-' || c == '+' && i != 0) {
+                        if (s.charAt(i - 1) != 'E' && s.charAt(i - 1) != 'e') idx = i;
+                    }
                 }
             }
         }
@@ -313,6 +316,9 @@ public class MainActivity extends AppCompatActivity {
                 for (int j = i + 1; j < l; j++) {
                     d = s.charAt(j);
                     if (d == '/' || d == '×' || d == '+' || d == '-' || j == l - 1) {
+                        if (d == '-' || d == '+') {
+                            if (s.charAt(j - 1) == 'E' || s.charAt(j - 1) == 'e') continue;
+                        }
                         String dr;
                         if (j != l - 1) {
                             dr = s.substring(i + 1, j);
@@ -324,8 +330,8 @@ public class MainActivity extends AppCompatActivity {
                         String fr;
                         fr = s.substring(idx, i);
                         if (fr.charAt(0) == '#') fr = "-" + fr.substring(1);
-                        if (c == '/') cal = Float.parseFloat(fr) / Float.parseFloat(dr);
-                        if (c == '×') cal = Float.parseFloat(fr) * Float.parseFloat(dr);
+                        if (c == '/') cal = Double.parseDouble(fr) / Double.parseDouble(dr);
+                        if (c == '×') cal = Double.parseDouble(fr) * Double.parseDouble(dr);
                         String n;
                         String m;
                         if (j != l - 1) {
@@ -351,7 +357,7 @@ public class MainActivity extends AppCompatActivity {
             }
             else {
                 if (c == '+' || c == '-') {
-                    idx = i + 1;
+                    if (s.charAt(i - 1) != 'E' && s.charAt(i - 1) != 'e') idx = i + 1;
                 }
             }
         }
@@ -365,6 +371,7 @@ public class MainActivity extends AppCompatActivity {
         for (int i = 0; i < l; i++) {
             c = s.charAt(i);
             if (c == '+' || c == '-') {
+                if (s.charAt(i - 1) == 'E' || s.charAt(i - 1) == 'e') continue;
                 for (int j = i + 1; j < l; j++) {
                     d = s.charAt(j);
                     if (d == '+' || d == '-' || j == l - 1) {
@@ -379,8 +386,8 @@ public class MainActivity extends AppCompatActivity {
                         String fr;
                         fr = s.substring(idx, i);
                         if (fr.charAt(0) == '#') fr = "-" + fr.substring(1);
-                        if (c == '+') cal = Float.parseFloat(fr) + Float.parseFloat(dr);
-                        if (c == '-') cal = Float.parseFloat(fr) - Float.parseFloat(dr);
+                        if (c == '+') cal = Double.parseDouble(fr) + Double.parseDouble(dr);
+                        if (c == '-') cal = Double.parseDouble(fr) - Double.parseDouble(dr);
                         String n;
                         if (j != l - 1) {
                             n = s.substring(j, l);
