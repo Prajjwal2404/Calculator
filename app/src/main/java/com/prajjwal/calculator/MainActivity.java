@@ -296,10 +296,11 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
             else {
-                if (c == '%' || c == '/' || c == '×' || c == '+' || c == '-') {
+                if (c == '/' || c == '×' || c == '+' || c == '-') {
                     if (c == '-' || c == '+' && i != 0) {
                         if (s.charAt(i - 1) != 'E' && s.charAt(i - 1) != 'e') idx = i;
                     }
+                    else if (c == '/' || c == '×') idx = i;
                 }
             }
         }
@@ -355,10 +356,8 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
             }
-            else {
-                if (c == '+' || c == '-') {
-                    if (s.charAt(i - 1) != 'E' && s.charAt(i - 1) != 'e') idx = i + 1;
-                }
+            else if (c == '+' || c == '-') {
+                if (s.charAt(i - 1) != 'E' && s.charAt(i - 1) != 'e') idx = i + 1;
             }
         }
         return s;
@@ -375,6 +374,9 @@ public class MainActivity extends AppCompatActivity {
                 for (int j = i + 1; j < l; j++) {
                     d = s.charAt(j);
                     if (d == '+' || d == '-' || j == l - 1) {
+                        if (d == '-' || d == '+') {
+                            if (s.charAt(j - 1) == 'E' || s.charAt(j - 1) == 'e') continue;
+                        }
                         String dr;
                         if (j != l - 1) {
                             dr = s.substring(i + 1, j);
