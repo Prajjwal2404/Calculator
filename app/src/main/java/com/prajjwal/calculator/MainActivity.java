@@ -129,7 +129,8 @@ public class MainActivity extends AppCompatActivity {
                 cln = true;
                 calculate();
                 if (minus) {
-                    if (show.length() != 1 && show.charAt(show.length() - 1) == '0' && show.charAt(show.length() - 2) == '.') show = show.substring(0,show.length() - 2);
+                    if (show.length() != 1 && show.charAt(show.length() - 1) == '0' && show.charAt(show.length() - 2) == '.')
+                        show = show.substring(0,show.length() - 2);
                     textshow();
                     if (show.equals("0")) count = 0;
                     else count = show.length();
