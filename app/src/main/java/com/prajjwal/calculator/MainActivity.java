@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
         v.vibrate(10);
         Button click = (Button) view;
         if (cln && click.getId() != R.id.result) clean();
-        if (count < 50) {
+        if (count < 48) {
             if (click.getId() != R.id.clear_icon && click.getId() != R.id.Obracket && click.getId() != R.id.result && click.getId() != R.id.Cbracket
                     && click.getId() != R.id.division && click.getId() != R.id.multiplication && click.getId() !=
                     R.id.subtraction && click.getId() != R.id.addition && click.getId() != R.id.power) {
@@ -129,11 +129,10 @@ public class MainActivity extends AppCompatActivity {
                 cln = true;
                 calculate();
                 if (minus) {
-                    if (show.length() != 1 && show.charAt(show.length() - 1) == '0' && show.charAt(show.length() - 2) == '.')
-                        show = show.substring(0,show.length() - 2);
+                    double zb = Double.parseDouble(show);
+                    long zd = (long) zb;
+                    if (zd == zb) show = String.valueOf(zd);
                     textshow();
-                    if (show.equals("0")) count = 0;
-                    else count = show.length();
                 }
             }
         }
@@ -267,7 +266,7 @@ public class MainActivity extends AppCompatActivity {
                         String dr;
                         dr = s.substring(i + 1, idx);
                         if (dr.charAt(0) == '#') dr = "-" + dr.substring(1);
-                        cal = (Double) Math.pow(Double.parseDouble(fr), Double.parseDouble(dr));
+                        cal = Math.pow(Double.parseDouble(fr), Double.parseDouble(dr));
                         String n;
                         String m;
                         if (j != 0) {
