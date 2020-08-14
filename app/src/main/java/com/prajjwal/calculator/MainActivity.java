@@ -256,7 +256,10 @@ public class MainActivity extends AppCompatActivity {
                             if (s.charAt(j - 1) == 'E' || s.charAt(j - 1) == 'e') continue;
                         }
                         String fr;
-                        if (j != 0) {
+                        if (d == '-') {
+                            fr = s.substring(j,i);
+                        }
+                        else if (j != 0) {
                             fr = s.substring(j + 1, i);
                         }
                         else {
@@ -275,8 +278,9 @@ public class MainActivity extends AppCompatActivity {
                                 neg = true;
                                 cal = cal * -1;
                             }
-                            n = s.substring(0, j + 1);
-                            if (neg) n = n + "#" + cal;
+                            if (!neg && d == '-') n = s.substring(0, j) + "+";
+                            else n = s.substring(0, j + 1);
+                            if (neg && d != '-') n = n + "#" + cal;
                             else n = n + cal;
                         }
                         else {
