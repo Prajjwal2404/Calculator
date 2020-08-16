@@ -126,6 +126,8 @@ public class MainActivity extends AppCompatActivity {
         }
     }
     public void result(View view) {
+        Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+        v.vibrate(10);
         if (show != null) {
             cln = true;
             calculate();
