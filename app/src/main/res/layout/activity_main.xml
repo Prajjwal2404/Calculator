@@ -353,7 +353,7 @@
         android:layout_height="0dp"
         android:background="@drawable/ripple_effectresult"
         android:gravity="center"
-        android:onClick="input"
+        android:onClick="result"
         android:text="@string/result"
         android:textAlignment="gravity"
         android:textColor="#FFFFFF"

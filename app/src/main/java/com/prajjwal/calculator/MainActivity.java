@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
         Button click = (Button) view;
         if (cln && click.getId() != R.id.result) clean();
         if (count < 48) {
-            if (click.getId() != R.id.clear && click.getId() != R.id.Obracket && click.getId() != R.id.result && click.getId() != R.id.Cbracket
+            if (click.getId() != R.id.Obracket && click.getId() != R.id.Cbracket
                     && click.getId() != R.id.division && click.getId() != R.id.multiplication && click.getId() !=
                     R.id.subtraction && click.getId() != R.id.addition && click.getId() != R.id.power) {
                 if (click.getId() != R.id.decimal) {
@@ -124,16 +124,16 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         }
-        if (click.getId() == R.id.result) {
-            if (show != null) {
-                cln = true;
-                calculate();
-                if (minus) {
-                    double zb = Double.parseDouble(show);
-                    long zd = (long) zb;
-                    if (zd == zb) show = String.valueOf(zd);
-                    textshow();
-                }
+    }
+    public void result(View view) {
+        if (show != null) {
+            cln = true;
+            calculate();
+            if (minus) {
+                double zb = Double.parseDouble(show);
+                long zd = (long) zb;
+                if (zd == zb) show = String.valueOf(zd);
+                textshow();
             }
         }
     }
