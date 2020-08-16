@@ -21,7 +21,7 @@ public class MainActivity extends AppCompatActivity {
     boolean minus = true;
     boolean cln = false;
     String show;
-    ImageView img;
+    Button img;
     ImageView imc;
     TextView output;
     @SuppressLint("SetTextI18n")
