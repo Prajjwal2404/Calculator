@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
         Button click = (Button) view;
         if (cln && click.getId() != R.id.result) clean();
         if (count < 48) {
-            if (click.getId() != R.id.clear_icon && click.getId() != R.id.Obracket && click.getId() != R.id.result && click.getId() != R.id.Cbracket
+            if (click.getId() != R.id.clear && click.getId() != R.id.Obracket && click.getId() != R.id.result && click.getId() != R.id.Cbracket
                     && click.getId() != R.id.division && click.getId() != R.id.multiplication && click.getId() !=
                     R.id.subtraction && click.getId() != R.id.addition && click.getId() != R.id.power) {
                 if (click.getId() != R.id.decimal) {
@@ -427,7 +427,10 @@ public class MainActivity extends AppCompatActivity {
         }
         output.setText(show);
     }
-    public void backspace() {
+    public void backspace(View view) {
+        Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+        v.vibrate(10);
+        if (cln) clean();
         if(show != null) {
             if (show.charAt(show.length() - 1) == ')') ++braces;
             else if (show.charAt(show.length() - 1) == '(') --braces;
@@ -438,39 +441,7 @@ public class MainActivity extends AppCompatActivity {
             else textshow();
         }
     }
-    public void clean() {
-        show = null;
-        cal = 0.0f;
-        count = 0;
-        minus = true;
-        braces = 0;
-        cln = false;
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                output.setText("0");
-                output.setTextSize(TypedValue.COMPLEX_UNIT_SP,60);
-            }
-        });
-    }
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        output = findViewById(R.id.display);
-        imc = findViewById(R.id.topcover);
-        imc.setVisibility(View.INVISIBLE);
-        img = findViewById(R.id.clear_icon);
-        img.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
-                v.vibrate(10);
-                if (cln) clean();
-                else backspace();
-            }
-        });
+    public void clear() {
         img.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
@@ -494,5 +465,30 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             }
         });
+    }
+    public void clean() {
+        show = null;
+        cal = 0.0f;
+        count = 0;
+        minus = true;
+        braces = 0;
+        cln = false;
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                output.setText("0");
+                output.setTextSize(TypedValue.COMPLEX_UNIT_SP,60);
+            }
+        });
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        output = findViewById(R.id.display);
+        imc = findViewById(R.id.topcover);
+        img = findViewById(R.id.clear);
+        clear();
     }
 }

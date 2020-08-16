@@ -27,10 +27,11 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/clear_icon"
+        android:id="@+id/clear"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:background="@drawable/rippleclear"
+        android:onClick="backspace"
         app:layout_constraintBottom_toTopOf="@+id/seven"
         app:layout_constraintEnd_toStartOf="@+id/Obracket"
         app:layout_constraintStart_toStartOf="parent"
@@ -52,7 +53,7 @@
         app:layout_constraintBottom_toTopOf="@+id/eight"
         app:layout_constraintEnd_toStartOf="@+id/Cbracket"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@id/clear_icon"
+        app:layout_constraintStart_toEndOf="@id/clear"
         app:layout_constraintTop_toBottomOf="@+id/display" />
 
     <Button
@@ -106,7 +107,7 @@
         app:layout_constraintEnd_toStartOf="@+id/eight"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/clear_icon" />
+        app:layout_constraintTop_toBottomOf="@id/clear" />
 
     <Button
         android:id="@+id/eight"
@@ -390,6 +391,7 @@
         android:layout_height="245dp"
         android:background="#006964"
         android:contentDescription="@string/cover_up"
+        android:visibility="invisible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/display" />
