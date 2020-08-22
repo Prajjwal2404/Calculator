@@ -35,8 +35,7 @@ public class MainActivity extends AppCompatActivity {
                     && click.getId() != R.id.division && click.getId() != R.id.multiplication && click.getId() !=
                     R.id.subtraction && click.getId() != R.id.addition && click.getId() != R.id.power) {
                 if (click.getId() != R.id.decimal) {
-                    CharSequence c = click.getText();
-                    String s = (String) c;
+                    String s = (String) click.getTag();
                     if (count == 0) show = s;
                     else show = show + s;
                     ++count;
@@ -74,8 +73,7 @@ public class MainActivity extends AppCompatActivity {
             }
             else if (click.getId() == R.id.division || click.getId() == R.id.multiplication ||
                     click.getId() == R.id.subtraction || click.getId() == R.id.addition || click.getId() == R.id.power) {
-                CharSequence c = click.getText();
-                String s = (String) c;
+                String s = (String) click.getTag();
                 if (count == 0 && click.getId() != R.id.subtraction) {
                     show = "0" + s;
                     count = count + 2;
