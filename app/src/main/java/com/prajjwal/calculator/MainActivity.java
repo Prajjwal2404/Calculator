@@ -15,15 +15,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
-    int count = 0;
-    int braces = 0;
-    double cal;
-    boolean minus = true;
-    boolean cln = false;
-    String show;
-    Button img;
-    ImageView imc;
-    TextView output;
+    private int count = 0, braces = 0;
+    private double cal;
+    private boolean minus = true, cln = false;
+    private String show;
+    private Button img;
+    private ImageView imc;
+    private TextView output;
     @SuppressLint("SetTextI18n")
     public void input(View view) {
         Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
@@ -138,7 +136,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
     @SuppressLint("SetTextI18n")
-    public void calculate() {
+    private void calculate() {
         if (show.charAt(show.length() - 1) == '(' || show.charAt(show.length() - 1) == '-') {
             char c;
             int l = show.length();
@@ -168,7 +166,7 @@ public class MainActivity extends AppCompatActivity {
             show = find(show);
         }
     }
-    public String find(String s) {
+    private String find(String s) {
         if (s.charAt(0) == '-') s = "0" + s;
         boolean br = false, ex = false, md = false, sa = false;
         int l = s.length();
@@ -196,7 +194,7 @@ public class MainActivity extends AppCompatActivity {
         if (sa) s = sad(s);
         return s;
     }
-    public String brc(String s) {
+    private String brc(String s) {
         char c;
         char d;
         int idxc = 0, idxo = 0;
@@ -241,7 +239,7 @@ public class MainActivity extends AppCompatActivity {
         }
         return s;
     }
-    public String exp(String s) {
+    private String exp(String s) {
         char c;
         char d;
         int l = s.length();
@@ -310,7 +308,7 @@ public class MainActivity extends AppCompatActivity {
         }
         return s;
     }
-    public String mdm(String s) {
+    private String mdm(String s) {
         char c;
         char d;
         int l = s.length();
@@ -366,7 +364,7 @@ public class MainActivity extends AppCompatActivity {
         }
         return s;
     }
-    public String sad(String s) {
+    private String sad(String s) {
         char c;
         char d;
         int l = s.length();
@@ -414,7 +412,7 @@ public class MainActivity extends AppCompatActivity {
         }
         return s;
     }
-    public void textshow() {
+    private void textshow() {
         int l = show.length();
         if (l > 27) {
             output.setTextSize(TypedValue.COMPLEX_UNIT_SP,45);
@@ -441,7 +439,7 @@ public class MainActivity extends AppCompatActivity {
             else textshow();
         }
     }
-    public void clear() {
+    private void clear() {
         img.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
@@ -466,7 +464,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
-    public void clean() {
+    private void clean() {
         show = null;
         cal = 0.0f;
         count = 0;
