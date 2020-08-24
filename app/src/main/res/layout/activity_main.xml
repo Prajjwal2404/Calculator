@@ -18,7 +18,7 @@
         android:paddingEnd="10dp"
         android:paddingBottom="5dp"
         android:text="@string/display"
-        android:textAlignment="gravity"
+        android:textAlignment="viewEnd"
         android:textColor="#FFFFFF"
         android:textSize="60sp"
         android:textStyle="normal"
