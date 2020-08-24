@@ -8,6 +8,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.os.Vibrator;
 import android.util.TypedValue;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewAnimationUtils;
 import android.widget.Button;
@@ -27,13 +28,14 @@ public class MainActivity extends AppCompatActivity {
         Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
         v.vibrate(10);
         Button click = (Button) view;
-        if (cln && click.getId() != R.id.result) clean();
+        String s = (String) click.getTag();
+        showInput(s);
+    }
+    private void showInput(String s) {
+        if (cln) clean();
         if (count < 48) {
-            if (click.getId() != R.id.Obracket && click.getId() != R.id.Cbracket
-                    && click.getId() != R.id.division && click.getId() != R.id.multiplication && click.getId() !=
-                    R.id.subtraction && click.getId() != R.id.addition && click.getId() != R.id.power) {
-                if (click.getId() != R.id.decimal) {
-                    String s = (String) click.getTag();
+            if (!s.equals("(") && !s.equals(")") && !s.equals("/") && !s.equals("×") && !s.equals("-") && !s.equals("+") && !s.equals("^")) {
+                if (!s.equals(".")) {
                     if (count == 0) show = s;
                     else show = show + s;
                     ++count;
@@ -69,18 +71,16 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
             }
-            else if (click.getId() == R.id.division || click.getId() == R.id.multiplication ||
-                    click.getId() == R.id.subtraction || click.getId() == R.id.addition || click.getId() == R.id.power) {
-                String s = (String) click.getTag();
-                if (count == 0 && click.getId() != R.id.subtraction) {
+            else if (s.equals("/") || s.equals("×") || s.equals("-") || s.equals("+") || s.equals("^")) {
+                if (count == 0 && !s.equals("-")) {
                     show = "0" + s;
                     count = count + 2;
                 }
-                else if (count == 0 && click.getId() == R.id.subtraction) {
+                else if (count == 0) {
                     show = s;
                     ++count;
                 }
-                else if (count != 0) {
+                else {
                     char chr = show.charAt(show.length() - 1);
                     if (chr != '^' && chr != '(' && chr != '/' && chr != '×' && chr != '+' && chr != '-') {
                         show = show + s;
@@ -91,7 +91,7 @@ public class MainActivity extends AppCompatActivity {
                         show = show + s;
                     }
                     else if (chr == '(') {
-                        if (click.getId() == R.id.subtraction) {
+                        if (s.equals("-")) {
                             show = show + s;
                             ++count;
                         }
@@ -99,14 +99,14 @@ public class MainActivity extends AppCompatActivity {
                 }
                 textshow();
             }
-            else if (click.getId() == R.id.Obracket) {
+            else if (s.equals("(")) {
                 if (count == 0) show = "(";
                 else show = show + "(";
                 ++braces;
                 ++count;
                 textshow();
             }
-            else if (click.getId() == R.id.Cbracket) {
+            else {
                 if (count != 0) {
                     if (braces != 0) {
                         char chr = show.charAt(show.length() - 1);
@@ -489,4 +489,150 @@ public class MainActivity extends AppCompatActivity {
         img = findViewById(R.id.clear);
         clear();
     }
+
+    @Override
+    public boolean onKeyUp(int keyCode, KeyEvent event) {
+        switch (keyCode) {
+            case KeyEvent.KEYCODE_NUMPAD_0:
+                if (event.getModifiers() == 0)
+                showInput("0");
+                return true;
+            case KeyEvent.KEYCODE_0:
+                if (event.isShiftPressed()) {
+                    showInput(")");
+                }
+                else if (event.getModifiers() == 0) {
+                    showInput("0");
+                }
+                return true;
+            case KeyEvent.KEYCODE_NUMPAD_1:
+            case KeyEvent.KEYCODE_1:
+                if (event.getModifiers() == 0)
+                showInput("1");
+                return true;
+            case KeyEvent.KEYCODE_NUMPAD_2:
+            case KeyEvent.KEYCODE_2:
+                if (event.getModifiers() == 0)
+                showInput("2");
+                return true;
+            case KeyEvent.KEYCODE_NUMPAD_3:
+            case KeyEvent.KEYCODE_3:
+                if (event.getModifiers() == 0)
+                showInput("3");
+                return true;
+            case KeyEvent.KEYCODE_NUMPAD_4:
+            case KeyEvent.KEYCODE_4:
+                if (event.getModifiers() == 0)
+                showInput("4");
+                return true;
+            case KeyEvent.KEYCODE_NUMPAD_5:
+            case KeyEvent.KEYCODE_5:
+                if (event.getModifiers() == 0)
+                showInput("5");
+                return true;
+            case KeyEvent.KEYCODE_NUMPAD_6:
+                if (event.getModifiers() == 0)
+                showInput("6");
+                return true;
+            case KeyEvent.KEYCODE_6:
+                if (event.isShiftPressed()) {
+                    showInput("^");
+                }
+                else if (event.getModifiers() == 0) {
+                    showInput("6");
+                }
+                return true;
+            case KeyEvent.KEYCODE_NUMPAD_7:
+            case KeyEvent.KEYCODE_7:
+                if (event.getModifiers() == 0)
+                showInput("7");
+                return true;
+            case KeyEvent.KEYCODE_NUMPAD_8:
+                if (event.getModifiers() == 0)
+                showInput("8");
+                return true;
+            case KeyEvent.KEYCODE_8:
+                if (event.isShiftPressed()) {
+                    showInput("×");
+                }
+                else if (event.getModifiers() == 0) {
+                    showInput("8");
+                }
+                return true;
+            case KeyEvent.KEYCODE_NUMPAD_9:
+                if (event.getModifiers() == 0)
+                showInput("9");
+                return true;
+            case KeyEvent.KEYCODE_9:
+                if (event.isShiftPressed()) {
+                    showInput("(");
+                }
+                else if (event.getModifiers() == 0) {
+                    showInput("9");
+                }
+                return true;
+            case KeyEvent.KEYCODE_NUMPAD_DOT:
+            case KeyEvent.KEYCODE_PERIOD:
+                if (event.getModifiers() == 0)
+                showInput(".");
+                return true;
+            case KeyEvent.KEYCODE_NUMPAD_ADD:
+            case KeyEvent.KEYCODE_PLUS:
+                if (event.getModifiers() == 0)
+                showInput("+");
+                return true;
+            case KeyEvent.KEYCODE_EQUALS:
+                if (event.isShiftPressed()){
+                    showInput("+");
+                }
+                return true;
+            case KeyEvent.KEYCODE_NUMPAD_SUBTRACT:
+            case KeyEvent.KEYCODE_MINUS:
+                if (event.getModifiers() == 0)
+                showInput("-");
+                return true;
+            case KeyEvent.KEYCODE_NUMPAD_MULTIPLY:
+            case KeyEvent.KEYCODE_STAR:
+                if (event.getModifiers() == 0)
+                showInput("×");
+                return true;
+            case KeyEvent.KEYCODE_NUMPAD_DIVIDE:
+            case KeyEvent.KEYCODE_SLASH:
+                if (event.getModifiers() == 0)
+                showInput("/");
+                return true;
+            case KeyEvent.KEYCODE_NUMPAD_ENTER:
+            case KeyEvent.KEYCODE_ENTER:
+                if (event.getModifiers() == 0) {
+                    if (show != null) {
+                        cln = true;
+                        calculate();
+                        if (minus) {
+                            double zb = Double.parseDouble(show);
+                            long zd = (long) zb;
+                            if (zd == zb) show = String.valueOf(zd);
+                            textshow();
+                        }
+                    }
+                }
+                return true;
+            case KeyEvent.KEYCODE_DEL:
+                if (event.getModifiers() == 0) {
+                    if (cln) clean();
+                    if(show != null) {
+                        if (show.charAt(show.length() - 1) == ')') ++braces;
+                        else if (show.charAt(show.length() - 1) == '(') --braces;
+                        --count;
+                        show = show.substring(0, show.length() - 1);
+                        if (show.length() == 0) clean();
+                        else if (show.charAt(0) == '0' && show.length() == 1) clean();
+                        else textshow();
+                    }
+                }
+                return true;
+            default:
+                return super.onKeyUp(keyCode, event);
+        }
+    }
+
 }
