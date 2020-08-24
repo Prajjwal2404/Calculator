@@ -1,7 +1,6 @@
 package com.prajjwal.calculator;
 
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.animation.Animator;
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -448,7 +447,7 @@ public class MainActivity extends AppCompatActivity {
                 int cx = output.getWidth();
                 int cy = output.getHeight();
                 float fr = (float) Math.hypot(cx,cy);
-                Animator anim = ViewAnimationUtils.createCircularReveal(imc,0,cy,100f,fr);
+                Animator anim = ViewAnimationUtils.createCircularReveal(imc,100,cy,100f,fr);
                 imc.setVisibility(View.VISIBLE);
                 anim.start();
                 new java.util.Timer().schedule(
@@ -458,7 +457,7 @@ public class MainActivity extends AppCompatActivity {
                                 clean();
                                 imc.setVisibility(View.INVISIBLE);
                             }
-                        }, 400
+                        }, 600
                 );
                 return true;
             }
