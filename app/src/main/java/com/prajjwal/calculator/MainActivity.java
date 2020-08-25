@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
     }
     private void showInput(String s) {
         if (cln) clean();
-        if (count < 48) {
+        if (count < 58) {
             if (!s.equals("(") && !s.equals(")") && !s.equals("/") && !s.equals("×") && !s.equals("-") && !s.equals("+") && !s.equals("^")) {
                 if (!s.equals(".")) {
                     if (count == 0) show = s;
