@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
     }
     private void showInput(String s) {
         if (cln) clean();
-        if (count < 58) {
+        if (count < 60) {
             if (!s.equals("(") && !s.equals(")") && !s.equals("/") && !s.equals("×") && !s.equals("-") && !s.equals("+") && !s.equals("^")) {
                 if (!s.equals(".")) {
                     if (count == 0) show = s;
@@ -413,7 +413,10 @@ public class MainActivity extends AppCompatActivity {
     }
     private void textshow() {
         int l = show.length();
-        if (l > 27) {
+        if (l > 45) {
+            output.setTextSize(TypedValue.COMPLEX_UNIT_SP,40);
+        }
+        else if (l > 27) {
             output.setTextSize(TypedValue.COMPLEX_UNIT_SP,45);
         }
         else if (l > 9) {
