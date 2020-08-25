@@ -1,6 +1,5 @@
 package com.prajjwal.calculator;
 
-import androidx.appcompat.app.AppCompatActivity;
 import android.animation.Animator;
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -11,8 +10,9 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewAnimationUtils;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.TextView;
+import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity {
     private int count = 0, braces = 0;
@@ -21,7 +21,7 @@ public class MainActivity extends AppCompatActivity {
     private String show;
     private Button img;
     private ImageView imc;
-    private TextView output;
+    private EditText output;
     @SuppressLint("SetTextI18n")
     public void input(View view) {
         Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
