@@ -335,7 +335,7 @@
         android:clickable="false"
         android:layout_marginStart="17dp"
         android:layout_marginEnd="17dp"
-        android:backgroundTint="@color/colorPrimary"
+        android:backgroundTint="#232323"
         app:layout_constraintBottom_toBottomOf="@+id/display"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
