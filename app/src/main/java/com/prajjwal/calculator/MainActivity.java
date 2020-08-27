@@ -458,7 +458,23 @@ public class MainActivity extends AppCompatActivity {
                             @Override
                             public void run() {
                                 clean();
-                                imc.setVisibility(View.INVISIBLE);
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        imc.setVisibility(View.INVISIBLE);
+                                    }
+                                });
+                                new java.util.Timer().schedule(new java.util.TimerTask(){
+                                    @Override
+                                    public void run() {
+                                        runOnUiThread(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                output.setTextSize(TypedValue.COMPLEX_UNIT_SP,60);
+                                            }
+                                        });
+                                    }
+                                },10);
                             }
                         }, 600
                 );
@@ -477,7 +493,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void run() {
                 output.setText("0");
-                output.setTextSize(TypedValue.COMPLEX_UNIT_SP,60);
             }
         });
     }
