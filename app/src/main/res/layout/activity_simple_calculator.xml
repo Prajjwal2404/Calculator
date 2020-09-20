@@ -1,0 +1,306 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <Button
+        android:id="@+id/clear"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@drawable/rippleclear"
+        android:focusable="false"
+        android:onClick="backspace"
+        app:layout_constraintBottom_toTopOf="@+id/hyperbolic"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintEnd_toStartOf="@+id/radian"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/radian"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@drawable/rippleobracket"
+        android:focusable="false"
+        android:onClick="input"
+        android:tag="("
+        app:layout_constraintBottom_toTopOf="@+id/inverse"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintEnd_toStartOf="@+id/square"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@id/clear"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/square"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@drawable/ripplecbracket"
+        android:focusable="false"
+        android:onClick="input"
+        android:tag=")"
+        app:layout_constraintBottom_toTopOf="@+id/squareroot"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintEnd_toStartOf="@+id/factorial"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/radian"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/factorial"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@drawable/rippledivision"
+        android:focusable="false"
+        android:onClick="input"
+        android:tag="/"
+        app:layout_constraintBottom_toTopOf="@+id/modulus"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/square"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/hyperbolic"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@drawable/rippleseven"
+        android:focusable="false"
+        android:onClick="input"
+        android:tag="7"
+        app:layout_constraintBottom_toTopOf="@+id/sin"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintEnd_toStartOf="@+id/inverse"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/clear" />
+
+    <Button
+        android:id="@+id/inverse"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@drawable/rippleeight"
+        android:focusable="false"
+        android:onClick="input"
+        android:tag="8"
+        app:layout_constraintBottom_toTopOf="@+id/csc"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintEnd_toStartOf="@+id/squareroot"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/hyperbolic"
+        app:layout_constraintTop_toBottomOf="@+id/radian" />
+
+    <Button
+        android:id="@+id/squareroot"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@drawable/ripplenine"
+        android:focusable="false"
+        android:onClick="input"
+        android:tag="9"
+        app:layout_constraintBottom_toTopOf="@+id/cuberoot"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintEnd_toStartOf="@+id/modulus"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/inverse"
+        app:layout_constraintTop_toBottomOf="@+id/square" />
+
+    <Button
+        android:id="@+id/modulus"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@drawable/ripplemultiplication"
+        android:focusable="false"
+        android:onClick="input"
+        android:tag="×"
+        app:layout_constraintBottom_toTopOf="@+id/absolute"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/squareroot"
+        app:layout_constraintTop_toBottomOf="@+id/factorial" />
+
+    <Button
+        android:id="@+id/sin"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@drawable/ripplefour"
+        android:focusable="false"
+        android:onClick="input"
+        android:tag="4"
+        app:layout_constraintBottom_toTopOf="@+id/cos"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintEnd_toStartOf="@+id/csc"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/hyperbolic" />
+
+    <Button
+        android:id="@+id/csc"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@drawable/ripplefive"
+        android:focusable="false"
+        android:onClick="input"
+        android:tag="5"
+        app:layout_constraintBottom_toTopOf="@+id/sec"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintEnd_toStartOf="@+id/cuberoot"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/sin"
+        app:layout_constraintTop_toBottomOf="@+id/inverse" />
+
+    <Button
+        android:id="@+id/cuberoot"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@drawable/ripplesix"
+        android:focusable="false"
+        android:onClick="input"
+        android:tag="6"
+        app:layout_constraintBottom_toTopOf="@+id/pi"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintEnd_toStartOf="@+id/absolute"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/csc"
+        app:layout_constraintTop_toBottomOf="@+id/squareroot" />
+
+    <Button
+        android:id="@+id/absolute"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@drawable/ripplesubtraction"
+        android:focusable="false"
+        android:onClick="input"
+        android:tag="-"
+        app:layout_constraintBottom_toTopOf="@+id/logrithm"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/cuberoot"
+        app:layout_constraintTop_toBottomOf="@+id/modulus" />
+
+    <Button
+        android:id="@+id/cos"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@drawable/rippleone"
+        android:focusable="false"
+        android:onClick="input"
+        android:tag="1"
+        app:layout_constraintBottom_toTopOf="@+id/tan"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintEnd_toStartOf="@+id/sec"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/sin" />
+
+    <Button
+        android:id="@+id/sec"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@drawable/rippletwo"
+        android:focusable="false"
+        android:onClick="input"
+        android:tag="2"
+        app:layout_constraintBottom_toTopOf="@+id/cot"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintEnd_toStartOf="@+id/pi"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/cos"
+        app:layout_constraintTop_toBottomOf="@+id/csc" />
+
+    <Button
+        android:id="@+id/pi"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@drawable/ripplethree"
+        android:focusable="false"
+        android:onClick="input"
+        android:tag="3"
+        app:layout_constraintBottom_toTopOf="@+id/exponent"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintEnd_toStartOf="@+id/logrithm"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/sec"
+        app:layout_constraintTop_toBottomOf="@+id/cuberoot" />
+
+    <Button
+        android:id="@+id/logrithm"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@drawable/rippleaddition"
+        android:focusable="false"
+        android:onClick="input"
+        android:tag="+"
+        app:layout_constraintBottom_toTopOf="@+id/ln"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/pi"
+        app:layout_constraintTop_toBottomOf="@+id/absolute" />
+
+    <Button
+        android:id="@+id/tan"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@drawable/ripplepower"
+        android:focusable="false"
+        android:onClick="input"
+        android:tag="^"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintEnd_toStartOf="@+id/cot"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cos" />
+
+    <Button
+        android:id="@+id/cot"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@drawable/ripplezero"
+        android:focusable="false"
+        android:onClick="input"
+        android:tag="0"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintEnd_toStartOf="@+id/exponent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/tan"
+        app:layout_constraintTop_toBottomOf="@+id/sec" />
+
+    <Button
+        android:id="@+id/exponent"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@drawable/rippledecimal"
+        android:focusable="false"
+        android:onClick="input"
+        android:tag="."
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintEnd_toStartOf="@+id/ln"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/cot"
+        app:layout_constraintTop_toBottomOf="@+id/pi" />
+
+    <Button
+        android:id="@+id/ln"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@drawable/rippleresult"
+        android:focusable="false"
+        android:onClick="result"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/exponent"
+        app:layout_constraintTop_toBottomOf="@+id/logrithm" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

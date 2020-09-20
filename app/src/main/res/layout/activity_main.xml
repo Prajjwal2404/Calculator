@@ -2,335 +2,102 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/colorPrimaryDark"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <EditText
-        android:id="@+id/display"
+    <ScrollView
+        android:id="@+id/scrolltxt"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:background="@color/colorPrimaryDark"
-        android:gravity="bottom|end"
-        android:maxLines="5"
-        android:paddingStart="10dp"
-        android:paddingTop="10dp"
-        android:paddingEnd="12dp"
-        android:paddingBottom="7dp"
-        android:inputType="none"
-        android:editable="false"
-        android:textIsSelectable="true"
-        android:text="@string/display"
-        android:textAlignment="viewEnd"
-        android:textColor="#FFFFFF"
-        android:textSize="60sp"
-        android:textStyle="normal"
-        android:fontFamily="monospace"
-        app:layout_constraintBottom_toTopOf="@id/bottomcover"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:orientation="vertical"
+        android:fillViewport="true"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_weight="4"
-        android:autofillHints="false"
-        tools:ignore="Deprecated,LabelFor" />
+        app:layout_constraintBottom_toTopOf="@+id/divider" >
 
-    <Button
-        android:id="@+id/clear"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/relativescroll"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <EditText
+                android:id="@+id/display"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:autofillHints="false"
+                android:background="@color/colorPrimaryDark"
+                android:fontFamily="@font/segoe_ui"
+                android:gravity="bottom|end"
+                android:inputType="textMultiLine|textNoSuggestions"
+                android:longClickable="false"
+                android:paddingStart="10dp"
+                android:paddingTop="10dp"
+                android:paddingEnd="12dp"
+                android:text="@string/display"
+                android:textAlignment="viewEnd"
+                android:textColor="#FFFFFF"
+                android:textIsSelectable="false"
+                android:textSize="50sp"
+                android:textStyle="normal"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toTopOf="@+id/preResult"
+                tools:ignore="LabelFor" />
+
+            <TextView
+                android:id="@+id/preResult"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                android:maxLines="1"
+                android:background="@color/colorPrimaryDark"
+                android:fontFamily="@font/segoe_ui"
+                android:gravity="bottom|end"
+                android:paddingStart="10dp"
+                android:paddingTop="10dp"
+                android:paddingEnd="12dp"
+                android:textAlignment="viewEnd"
+                android:textColor="#C8C8C8"
+                android:textSize="35sp"
+                android:textIsSelectable="false"
+                android:textStyle="normal"
+                app:autoSizeTextType="uniform"
+                app:autoSizeMaxTextSize="35sp"
+                app:autoSizeMinTextSize="20sp"
+                app:autoSizeStepGranularity="1sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
+
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/viewPager"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:background="@drawable/rippleclear"
-        android:focusable="false"
-        android:onClick="backspace"
-        app:layout_constraintBottom_toTopOf="@+id/seven"
-        app:layout_constraintDimensionRatio="1:1"
-        app:layout_constraintEnd_toStartOf="@+id/Obracket"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/display" />
-
-    <Button
-        android:id="@+id/Obracket"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:background="@drawable/rippleobracket"
-        android:focusable="false"
-        android:onClick="input"
-        android:tag="("
-        app:layout_constraintBottom_toTopOf="@+id/eight"
-        app:layout_constraintDimensionRatio="1:1"
-        app:layout_constraintEnd_toStartOf="@+id/Cbracket"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@id/clear"
-        app:layout_constraintTop_toBottomOf="@+id/display" />
-
-    <Button
-        android:id="@+id/Cbracket"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:background="@drawable/ripplecbracket"
-        android:focusable="false"
-        android:onClick="input"
-        android:tag=")"
-        app:layout_constraintBottom_toTopOf="@+id/nine"
-        app:layout_constraintDimensionRatio="1:1"
-        app:layout_constraintEnd_toStartOf="@+id/division"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/Obracket"
-        app:layout_constraintTop_toBottomOf="@+id/display" />
-
-    <Button
-        android:id="@+id/division"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:background="@drawable/rippledivision"
-        android:focusable="false"
-        android:onClick="input"
-        android:tag="/"
-        app:layout_constraintBottom_toTopOf="@+id/multiplication"
-        app:layout_constraintDimensionRatio="1:1"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/Cbracket"
-        app:layout_constraintTop_toBottomOf="@+id/display" />
-
-    <Button
-        android:id="@+id/seven"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:background="@drawable/rippleseven"
-        android:focusable="false"
-        android:onClick="input"
-        android:tag="7"
-        app:layout_constraintBottom_toTopOf="@+id/four"
-        app:layout_constraintDimensionRatio="1:1"
-        app:layout_constraintEnd_toStartOf="@+id/eight"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/clear" />
-
-    <Button
-        android:id="@+id/eight"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:background="@drawable/rippleeight"
-        android:focusable="false"
-        android:onClick="input"
-        android:tag="8"
-        app:layout_constraintBottom_toTopOf="@+id/five"
-        app:layout_constraintDimensionRatio="1:1"
-        app:layout_constraintEnd_toStartOf="@+id/nine"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/seven"
-        app:layout_constraintTop_toBottomOf="@+id/Obracket" />
-
-    <Button
-        android:id="@+id/nine"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:background="@drawable/ripplenine"
-        android:focusable="false"
-        android:onClick="input"
-        android:tag="9"
-        app:layout_constraintBottom_toTopOf="@+id/six"
-        app:layout_constraintDimensionRatio="1:1"
-        app:layout_constraintEnd_toStartOf="@+id/multiplication"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/eight"
-        app:layout_constraintTop_toBottomOf="@+id/Cbracket" />
-
-    <Button
-        android:id="@+id/multiplication"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:background="@drawable/ripplemultiplication"
-        android:focusable="false"
-        android:onClick="input"
-        android:tag="×"
-        app:layout_constraintBottom_toTopOf="@+id/subtraction"
-        app:layout_constraintDimensionRatio="1:1"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/nine"
-        app:layout_constraintTop_toBottomOf="@+id/division" />
-
-    <Button
-        android:id="@+id/four"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:background="@drawable/ripplefour"
-        android:focusable="false"
-        android:onClick="input"
-        android:tag="4"
-        app:layout_constraintBottom_toTopOf="@+id/one"
-        app:layout_constraintDimensionRatio="1:1"
-        app:layout_constraintEnd_toStartOf="@+id/five"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/seven" />
-
-    <Button
-        android:id="@+id/five"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:background="@drawable/ripplefive"
-        android:focusable="false"
-        android:onClick="input"
-        android:tag="5"
-        app:layout_constraintBottom_toTopOf="@+id/two"
-        app:layout_constraintDimensionRatio="1:1"
-        app:layout_constraintEnd_toStartOf="@+id/six"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/four"
-        app:layout_constraintTop_toBottomOf="@+id/eight" />
-
-    <Button
-        android:id="@+id/six"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:background="@drawable/ripplesix"
-        android:focusable="false"
-        android:onClick="input"
-        android:tag="6"
-        app:layout_constraintBottom_toTopOf="@+id/three"
-        app:layout_constraintDimensionRatio="1:1"
-        app:layout_constraintEnd_toStartOf="@+id/subtraction"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/five"
-        app:layout_constraintTop_toBottomOf="@+id/nine" />
-
-    <Button
-        android:id="@+id/subtraction"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:background="@drawable/ripplesubtraction"
-        android:focusable="false"
-        android:onClick="input"
-        android:tag="-"
-        app:layout_constraintBottom_toTopOf="@+id/addition"
-        app:layout_constraintDimensionRatio="1:1"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/six"
-        app:layout_constraintTop_toBottomOf="@+id/multiplication" />
-
-    <Button
-        android:id="@+id/one"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:background="@drawable/rippleone"
-        android:focusable="false"
-        android:onClick="input"
-        android:tag="1"
-        app:layout_constraintBottom_toTopOf="@+id/power"
-        app:layout_constraintDimensionRatio="1:1"
-        app:layout_constraintEnd_toStartOf="@+id/two"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/four" />
-
-    <Button
-        android:id="@+id/two"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:background="@drawable/rippletwo"
-        android:focusable="false"
-        android:onClick="input"
-        android:tag="2"
-        app:layout_constraintBottom_toTopOf="@+id/zero"
-        app:layout_constraintDimensionRatio="1:1"
-        app:layout_constraintEnd_toStartOf="@+id/three"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/one"
-        app:layout_constraintTop_toBottomOf="@+id/five" />
-
-    <Button
-        android:id="@+id/three"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:background="@drawable/ripplethree"
-        android:focusable="false"
-        android:onClick="input"
-        android:tag="3"
-        app:layout_constraintBottom_toTopOf="@+id/decimal"
-        app:layout_constraintDimensionRatio="1:1"
-        app:layout_constraintEnd_toStartOf="@+id/addition"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/two"
-        app:layout_constraintTop_toBottomOf="@+id/six" />
-
-    <Button
-        android:id="@+id/addition"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:background="@drawable/rippleaddition"
-        android:focusable="false"
-        android:onClick="input"
-        android:tag="+"
-        app:layout_constraintBottom_toTopOf="@+id/result"
-        app:layout_constraintDimensionRatio="1:1"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/three"
-        app:layout_constraintTop_toBottomOf="@+id/subtraction" />
-
-    <Button
-        android:id="@+id/power"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:background="@drawable/ripplepower"
-        android:focusable="false"
-        android:onClick="input"
-        android:tag="^"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintDimensionRatio="1:1"
-        app:layout_constraintEnd_toStartOf="@+id/zero"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/one" />
-
-    <Button
-        android:id="@+id/zero"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:background="@drawable/ripplezero"
-        android:focusable="false"
-        android:onClick="input"
-        android:tag="0"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintDimensionRatio="1:1"
-        app:layout_constraintEnd_toStartOf="@+id/decimal"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/power"
-        app:layout_constraintTop_toBottomOf="@+id/two" />
-
-    <Button
-        android:id="@+id/decimal"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:background="@drawable/rippledecimal"
-        android:focusable="false"
-        android:onClick="input"
-        android:tag="."
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintDimensionRatio="1:1"
-        app:layout_constraintEnd_toStartOf="@+id/result"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/zero"
-        app:layout_constraintTop_toBottomOf="@+id/three" />
-
-    <Button
-        android:id="@+id/result"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:background="@drawable/rippleresult"
-        android:focusable="false"
-        android:onClick="result"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintDimensionRatio="1:1"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/decimal"
-        app:layout_constraintTop_toBottomOf="@+id/addition" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintVertical_weight="6"
+        app:layout_constraintTop_toBottomOf="@+id/divider" >
+
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tablayout"
+            android:layout_width="match_parent"
+            android:layout_height="10dp"
+            android:focusable="false"
+            app:tabBackground="@drawable/tab_selector"
+            app:tabGravity="center"
+            app:tabIndicatorHeight="0dp"/>
+
+    </androidx.viewpager.widget.ViewPager>
 
     <Button
         android:id="@+id/divider"
@@ -341,22 +108,11 @@
         android:layout_marginStart="17dp"
         android:layout_marginEnd="17dp"
         android:backgroundTint="#232323"
-        app:layout_constraintBottom_toBottomOf="@+id/display"
+        app:layout_constraintTop_toBottomOf="@+id/scrolltxt"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <ImageView
-        android:id="@+id/bottomcover"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:contentDescription="@string/cover_up"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintVertical_weight="6"
-        app:layout_constraintTop_toBottomOf="@id/display"
-        app:srcCompat="@color/colorPrimaryDark" />
+        app:layout_constraintBottom_toTopOf="@+id/viewPager"/>
 
     <ImageView
         android:id="@+id/topcover"

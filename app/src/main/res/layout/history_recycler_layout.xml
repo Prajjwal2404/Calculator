@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="15dp"
+    android:background="@color/colorPrimaryDark"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <TextView
+        android:id="@+id/expression"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:background="@color/colorPrimaryDark"
+        android:foreground="?attr/selectableItemBackground"
+        android:gravity="bottom|end"
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp"
+        android:textAlignment="viewEnd"
+        android:textColor="#FFFFFF"
+        android:textIsSelectable="false"
+        android:textSize="35sp"
+        android:fontFamily="@font/segoe_ui"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="@tools:sample/first_names" />
+
+    <TextView
+        android:id="@+id/resultExp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:background="@color/colorPrimaryDark"
+        android:foreground="?attr/selectableItemBackground"
+        android:gravity="bottom|end"
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp"
+        android:textAlignment="viewEnd"
+        android:textColor="#C8C8C8"
+        android:textIsSelectable="false"
+        android:textSize="35sp"
+        android:fontFamily="@font/segoe_ui"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/expression"
+        tools:text="@tools:sample/us_zipcodes" />
+
+    <Button
+        android:id="@+id/dividerHst"
+        android:layout_width="0dp"
+        android:layout_height="13dp"
+        android:focusable="false"
+        android:clickable="false"
+        android:layout_marginStart="17dp"
+        android:layout_marginEnd="17dp"
+        android:backgroundTint="#232323"
+        app:layout_constraintTop_toBottomOf="@+id/resultExp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
