@@ -40,7 +40,8 @@ public class MainActivity extends AppCompatActivity {
     private static final String HISTORY_METHODS_KEY = "historyMethods";
     private int count = 0, braces = 0, pos;
     private double cal;
-    private static boolean cln = false, hyp = true, inv = true, rd = true, canChange = true, shouldPreResult = false, shouldClean = false;
+    private static boolean cln = false, hyp = true, inv = true, rd = true,
+            canChange = true, shouldPreResult = false, shouldClean = false;
     private Button hyperbolic, inverse, rad, sin, cos, tan, cot, sec, csc;
     private String show;
     private ImageView imc, historyImg;
@@ -1044,7 +1045,7 @@ public class MainActivity extends AppCompatActivity {
     }
     private void textShow() {
         if (show.equalsIgnoreCase("Infinity")) show = "Value too large";
-        if (cln) output.setSelection(output.length());
+        if (cln || shouldClean) output.setSelection(output.length());
         int l = show.length();
         if (l > 27) {
             output.setTextSize(TypedValue.COMPLEX_UNIT_SP,40);
