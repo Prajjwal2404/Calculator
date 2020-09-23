@@ -53,7 +53,7 @@
         android:clickable="false"
         android:layout_marginStart="17dp"
         android:layout_marginEnd="17dp"
-        android:backgroundTint="#232323"
+        android:backgroundTint="@color/divider"
         app:layout_constraintTop_toBottomOf="@+id/resultExp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
