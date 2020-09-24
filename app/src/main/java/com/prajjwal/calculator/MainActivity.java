@@ -460,6 +460,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
     private String calculate(String s, int setBraces) {
+        shouldPreResult = false;
         char tr = s.charAt(s.length() - 1);
         if (tr == '^' || tr == '/' || tr == '%' || tr == '×' || tr == '+' || tr == '-' || tr == '.')
             s = s.substring(0, s.length() - 1);
@@ -478,12 +479,14 @@ public class MainActivity extends AppCompatActivity {
                             if (i < l - 1) fr = fr + s.substring(i + 1, l);
                             s = fr;
                             update_sciMethods(i, 9);
+                            shouldPreResult = true;
                         }
                         if (c == 'π') {
                             fr = s.substring(0, i) + "3.14159265";
                             if (i < l - 1) fr = fr + s.substring(i + 1, l);
                             s = fr;
                             update_sciMethods(i, 9);
+                            shouldPreResult = true;
                         }
                     }
                     else {
@@ -534,7 +537,6 @@ public class MainActivity extends AppCompatActivity {
         return s;
     }
     private String find(String s) {
-        shouldPreResult = false;
         if (s.length() == 0) return "Error";
         if (s.charAt(0) == '-') {
             s = "0" + s;
