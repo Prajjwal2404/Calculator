@@ -20,18 +20,18 @@ import android.widget.ImageView;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
-
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-
 import java.lang.reflect.Type;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
@@ -647,22 +647,39 @@ public class MainActivity extends AppCompatActivity {
                     if (sci != null) {
                         sf = sci.getFunction();
                         double pr = Double.parseDouble(sol);
+                        int a = 100000000;
+                        DecimalFormatSymbols decimalFormatSymbols = new DecimalFormatSymbols(Locale.US);
+                        DecimalFormat frt = new DecimalFormat("0.########E0", decimalFormatSymbols);
                         switch (sf) {
                             case "abs":
                                 if (pr < 0) pr = pr * -1;
+                                if (String.valueOf(pr).contains("E")) pr = Double.parseDouble(frt.format(pr));
+                                else pr = (double) Math.round(pr*a)/a;
                                 sol = String.valueOf(pr);
                                 break;
                             case "log":
-                                sol = String.valueOf(Math.log10(pr));
+                                pr = Math.log10(pr);
+                                if (String.valueOf(pr).contains("E")) pr = Double.parseDouble(frt.format(pr));
+                                else pr = (double) Math.round(pr*a)/a;
+                                sol = String.valueOf(pr);
                                 break;
                             case "ln":
-                                sol = String.valueOf(Math.log(pr));
+                                pr = Math.log(pr);
+                                if (String.valueOf(pr).contains("E")) pr = Double.parseDouble(frt.format(pr));
+                                else pr = (double) Math.round(pr*a)/a;
+                                sol = String.valueOf(pr);
                                 break;
                             case "∛":
-                                sol = String.valueOf(Math.cbrt(pr));
+                                pr = Math.cbrt(pr);
+                                if (String.valueOf(pr).contains("E")) pr = Double.parseDouble(frt.format(pr));
+                                else pr = (double) Math.round(pr*a)/a;
+                                sol = String.valueOf(pr);
                                 break;
                             case "√":
-                                sol = String.valueOf(Math.sqrt(pr));
+                                pr = Math.sqrt(pr);
+                                if (String.valueOf(pr).contains("E")) pr = Double.parseDouble(frt.format(pr));
+                                else pr = (double) Math.round(pr*a)/a;
+                                sol = String.valueOf(pr);
                                 break;
                             default:
                                 sol = trig(sf,pr,sci.isRad());
@@ -706,97 +723,140 @@ public class MainActivity extends AppCompatActivity {
         }
         return s;
     }
-    @SuppressWarnings("DuplicateExpressions")
     private String trig(String function, double number, boolean isRadian) {
         int a = 1000000000;
+        DecimalFormatSymbols decimalFormatSymbols = new DecimalFormatSymbols(Locale.US);
+        DecimalFormat frt = new DecimalFormat("0.#########E0", decimalFormatSymbols);
         switch (function) {
             case "sin":
                 if (!isRadian) number = Math.toRadians(number);
-                number = (double) Math.round(Math.sin(number)*a)/a;
+                number = Math.sin(number);
+                if (String.valueOf(number).contains("E")) number = Double.parseDouble(frt.format(number));
+                else number = (double) Math.round(number*a)/a;
                 break;
             case "cos":
                 if (!isRadian) number = Math.toRadians(number);
-                number = (double) Math.round(Math.cos(number)*a)/a;
+                number = Math.cos(number);
+                if (String.valueOf(number).contains("E")) number = Double.parseDouble(frt.format(number));
+                else number = (double) Math.round(number*a)/a;
                 break;
             case "tan":
                 if (!isRadian && number == 90.0) return "Domain Error";
                 if (!isRadian) number = Math.toRadians(number);
-                number = (double) Math.round(Math.tan(number)*a)/a;
+                number = Math.tan(number);
+                if (String.valueOf(number).contains("E")) number = Double.parseDouble(frt.format(number));
+                else number = (double) Math.round(number*a)/a;
                 break;
             case "cot":
                 if (!isRadian && number == 90.0) return "1.0";
                 if (!isRadian) number = Math.toRadians(number);
-                number = (double) Math.round(Math.tan(number)*a)/a;
+                number = Math.tan(number);
+                if (String.valueOf(number).contains("E")) number = Double.parseDouble(frt.format(number));
+                else number = (double) Math.round(number*a)/a;
                 if (number == 0.0) return "Domain Error";
                 number = 1.0 / number;
                 break;
             case "sec":
                 if (!isRadian) number = Math.toRadians(number);
-                number = (double) Math.round(Math.cos(number)*a)/a;
+                number = Math.cos(number);
+                if (String.valueOf(number).contains("E")) number = Double.parseDouble(frt.format(number));
+                else number = (double) Math.round(number*a)/a;
                 if (number == 0.0) return "Domain Error";
                 number = 1.0 / number;
                 break;
             case "csc":
                 if (!isRadian) number = Math.toRadians(number);
-                number = (double) Math.round(Math.sin(number)*a)/a;
+                number = Math.sin(number);
+                if (String.valueOf(number).contains("E")) number = Double.parseDouble(frt.format(number));
+                else number = (double) Math.round(number*a)/a;
                 if (number == 0.0) return "Domain Error";
                 number = 1.0 / number;
                 break;
             case "asin":
                 number = Math.toDegrees(Math.asin(number));
-                if (!Double.isNaN(number)) number = (double) Math.round(number*a)/a;
+                if (!Double.isNaN(number)) {
+                    if (String.valueOf(number).contains("E")) number = Double.parseDouble(frt.format(number));
+                    else number = (double) Math.round(number*a)/a;
+                }
                 else return "Domain Error";
                 break;
             case "acos":
                 number = Math.toDegrees(Math.acos(number));
-                if (!Double.isNaN(number)) number = (double) Math.round(number*a)/a;
+                if (!Double.isNaN(number)) {
+                    if (String.valueOf(number).contains("E")) number = Double.parseDouble(frt.format(number));
+                    else number = (double) Math.round(number*a)/a;
+                }
                 else return "Domain Error";
                 break;
             case "atan":
                 number = Math.toDegrees(Math.atan(number));
-                if (!Double.isNaN(number)) number = (double) Math.round(number*a)/a;
+                if (!Double.isNaN(number)) {
+                    if (String.valueOf(number).contains("E")) number = Double.parseDouble(frt.format(number));
+                    else number = (double) Math.round(number*a)/a;
+                }
                 else return "Domain Error";
                 break;
             case "acot":
                 number = 1.0 / number;
                 number = Math.toDegrees(Math.atan(number));
-                if (!Double.isNaN(number)) number = (double) Math.round(number*a)/a;
+                if (!Double.isNaN(number)) {
+                    if (String.valueOf(number).contains("E")) number = Double.parseDouble(frt.format(number));
+                    else number = (double) Math.round(number*a)/a;
+                }
                 else return "Domain Error";
                 break;
             case "asec":
                 if (number == 0.0) return "Domain Error";
                 number = 1.0 / number;
                 number = Math.toDegrees(Math.acos(number));
-                if (!Double.isNaN(number)) number = (double) Math.round(number*a)/a;
+                if (!Double.isNaN(number)) {
+                    if (String.valueOf(number).contains("E")) number = Double.parseDouble(frt.format(number));
+                    else number = (double) Math.round(number*a)/a;
+                }
                 else return "Domain Error";
                 break;
             case "acsc":
                 if (number == 0.0) return "Domain Error";
                 number = 1.0 / number;
                 number = Math.toDegrees(Math.asin(number));
-                if (!Double.isNaN(number)) number = (double) Math.round(number*a)/a;
+                if (!Double.isNaN(number)) {
+                    if (String.valueOf(number).contains("E")) number = Double.parseDouble(frt.format(number));
+                    else number = (double) Math.round(number*a)/a;
+                }
                 else return "Domain Error";
                 break;
             case "sinh":
-                number = (double) Math.round(Math.sinh(number)*a)/a;
+                number = Math.sinh(number);
+                if (String.valueOf(number).contains("E")) number = Double.parseDouble(frt.format(number));
+                else number = (double) Math.round(number*a)/a;
                 break;
             case "cosh":
-                number = (double) Math.round(Math.cosh(number)*a)/a;
+                number = Math.cosh(number);
+                if (String.valueOf(number).contains("E")) number = Double.parseDouble(frt.format(number));
+                else number = (double) Math.round(number*a)/a;
                 break;
             case "tanh":
-                number = (double) Math.round(Math.tanh(number)*a)/a;
+                number = Math.tanh(number);
+                if (String.valueOf(number).contains("E")) number = Double.parseDouble(frt.format(number));
+                else number = (double) Math.round(number*a)/a;
                 break;
             case "coth":
-                number = (double) Math.round(Math.tanh(number)*a)/a;
+                number = Math.tanh(number);
+                if (String.valueOf(number).contains("E")) number = Double.parseDouble(frt.format(number));
+                else number = (double) Math.round(number*a)/a;
                 if (number == 0.0) return "Domain Error";
                 number = 1.0 / number;
                 break;
             case "sech":
-                number = (double) Math.round(Math.cosh(number)*a)/a;
+                number = Math.cosh(number);
+                if (String.valueOf(number).contains("E")) number = Double.parseDouble(frt.format(number));
+                else number = (double) Math.round(number*a)/a;
                 number = 1.0 / number;
                 break;
             case "csch":
-                number = (double) Math.round(Math.sinh(number)*a)/a;
+                number = Math.sinh(number);
+                if (String.valueOf(number).contains("E")) number = Double.parseDouble(frt.format(number));
+                else number = (double) Math.round(number*a)/a;
                 if (number == 0.0) return "Domain Error";
                 number = 1.0 / number;
                 break;
@@ -825,6 +885,14 @@ public class MainActivity extends AppCompatActivity {
                     if (nm != in) return "Domain Error";
                     for (int f = 1; f <= nm; f++) {
                         fac = fac * f;
+                    }
+                    if (String.valueOf(fac).contains("E")) {
+                        DecimalFormatSymbols decimalFormatSymbols = new DecimalFormatSymbols(Locale.US);
+                        DecimalFormat frt = new DecimalFormat("0.########E0", decimalFormatSymbols);
+                        fac = Double.parseDouble(frt.format(fac));
+                    }
+                    else {
+                        fac = (double) Math.round(fac*100000000)/100000000;
                     }
                     String n, m;
                     n = s.substring(0, idx + 1);
@@ -881,6 +949,14 @@ public class MainActivity extends AppCompatActivity {
                             if (dr.charAt(0) == '#') dr = "-" + dr.substring(1);
                             cal = Math.pow(Double.parseDouble(fr), Double.parseDouble(dr));
                             if (Double.isNaN(cal)) return "Not a number";
+                            if (String.valueOf(cal).contains("E")) {
+                                DecimalFormatSymbols decimalFormatSymbols = new DecimalFormatSymbols(Locale.US);
+                                DecimalFormat frt = new DecimalFormat("0.########E0", decimalFormatSymbols);
+                                cal = Double.parseDouble(frt.format(cal));
+                            }
+                            else {
+                                cal = (double) Math.round(cal*100000000)/100000000;
+                            }
                             String n;
                             String m;
                             if (j != 0) {
@@ -960,6 +1036,14 @@ public class MainActivity extends AppCompatActivity {
                             }
                             if (c == '×') cal = Double.parseDouble(fr) * Double.parseDouble(dr);
                             if (Double.isNaN(cal)) return "Not a number";
+                            if (String.valueOf(cal).contains("E")) {
+                                DecimalFormatSymbols decimalFormatSymbols = new DecimalFormatSymbols(Locale.US);
+                                DecimalFormat frt = new DecimalFormat("0.########E0", decimalFormatSymbols);
+                                cal = Double.parseDouble(frt.format(cal));
+                            }
+                            else {
+                                cal = (double) Math.round(cal*100000000)/100000000;
+                            }
                             String n;
                             String m;
                             if (j != l - 1) {
@@ -1021,6 +1105,14 @@ public class MainActivity extends AppCompatActivity {
                             if (c == '+') cal = Double.parseDouble(fr) + Double.parseDouble(dr);
                             if (c == '-') cal = Double.parseDouble(fr) - Double.parseDouble(dr);
                             if (Double.isNaN(cal)) return "Not a number";
+                            if (String.valueOf(cal).contains("E")) {
+                                DecimalFormatSymbols decimalFormatSymbols = new DecimalFormatSymbols(Locale.US);
+                                DecimalFormat frt = new DecimalFormat("0.########E0", decimalFormatSymbols);
+                                cal = Double.parseDouble(frt.format(cal));
+                            }
+                            else {
+                                cal = (double) Math.round(cal*100000000)/100000000;
+                            }
                             String n;
                             if (j != l - 1) {
                                 n = s.substring(j, l);
