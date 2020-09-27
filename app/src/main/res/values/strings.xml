@@ -5,4 +5,5 @@
     <string name="copy">COPY</string>
     <string name="history">history</string>
     <string name="no_history">No History</string>
+    <string name="paste">PASTE</string>
 </resources>

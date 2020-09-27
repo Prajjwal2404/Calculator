@@ -32,6 +32,7 @@ import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.util.ArrayList;
 import java.util.Locale;
+import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
@@ -1594,6 +1595,113 @@ public class MainActivity extends AppCompatActivity {
         editor.putString(HISTORY_METHODS_KEY, gson.toJson(histSciMethod));
         editor.apply();
     }
+    private boolean setPasteData(String value) {
+        if (cln) clean();
+        restore_sciMethod();
+        String trigFunc;
+        char ch;
+        ArrayList<SciMethod> setPasteMethod = new ArrayList<>();
+        for (int i = 0; i < value.length(); i++) {
+            ch = value.charAt(i);
+            if (ch == '(') {
+                if (i > 0) {
+                    trigFunc = String.valueOf(value.charAt(i - 1));
+                    if (trigFunc.equals("√") || trigFunc.equals("∛")) {
+                        setPasteMethod.add(new SciMethod(i - 1, i, trigFunc, rd));
+                        continue;
+                    }
+                }
+                if (i > 1) {
+                    trigFunc = value.substring(i - 2, i);
+                    if (trigFunc.equals("ln")) {
+                        setPasteMethod.add(new SciMethod(i - 2, i, trigFunc, rd));
+                        continue;
+                    }
+                }
+                if (i > 2) {
+                    trigFunc = value.substring(i - 3, i);
+                    if (trigFunc.equals("abs") || trigFunc.equals("log")) {
+                        setPasteMethod.add(new SciMethod(i - 3, i, trigFunc, rd));
+                        continue;
+                    }
+                    else if (trigFunc.equals("sin") || trigFunc.equals("cos") || trigFunc.equals("tan")
+                            || trigFunc.equals("csc") || trigFunc.equals("sec") || trigFunc.equals("cot")) {
+                        if (i > 3) {
+                            String trFunc = value.substring(i - 4, i);
+                            if (!trFunc.equals("asin") && !trFunc.equals("acos") && !trFunc.equals("atan")
+                                    && !trFunc.equals("acsc") && !trFunc.equals("asec") && !trFunc.equals("acot")) {
+                                setPasteMethod.add(new SciMethod(i - 3, i, trigFunc, rd));
+                                continue;
+                            }
+                        }
+                        else {
+                            setPasteMethod.add(new SciMethod(i - 3, i, trigFunc, rd));
+                            continue;
+                        }
+                    }
+                }
+                if (i > 3) {
+                    trigFunc = value.substring(i - 4, i);
+                    if (trigFunc.equals("asin") || trigFunc.equals("acos") || trigFunc.equals("atan") || trigFunc.equals("acsc")
+                            || trigFunc.equals("asec") || trigFunc.equals("acot") || trigFunc.equals("sinh") || trigFunc.equals("cosh")
+                            || trigFunc.equals("tanh") || trigFunc.equals("csch") || trigFunc.equals("sech") || trigFunc.equals("coth")) {
+                        setPasteMethod.add(new SciMethod(i - 4, i, trigFunc, rd));
+                    }
+                }
+            }
+        }
+        pos = output.getSelectionStart();
+        if (isOutside_sciMethods(pos)) {
+            String s;
+            if (show == null) s = "0";
+            else s = show;
+            s = s.substring(0, pos);
+            int len = s.length();
+            int ins = -1;
+            for (int i = 0; i < sciMethods.size(); i++) {
+                if (sciMethods.get(i).getStartIdx() > (pos - 1)) {
+                    ins = i;
+                    break;
+                }
+            }
+            update_sciMethods(pos - 1, value.length());
+            int stidx, edidx;
+            String fuc;
+            boolean red;
+            if (ins == -1) {
+                for (int i = 0; i < setPasteMethod.size(); i++) {
+                    stidx = setPasteMethod.get(i).getStartIdx();
+                    edidx = setPasteMethod.get(i).getEndIdx();
+                    fuc = setPasteMethod.get(i).getFunction();
+                    red = setPasteMethod.get(i).isRad();
+                    stidx += len;
+                    edidx += len;
+                    sciMethods.add(new SciMethod(stidx, edidx, fuc, red));
+                }
+            }
+            else {
+                for (int i = (setPasteMethod.size() - 1); i >= 0; i--) {
+                    stidx = setPasteMethod.get(i).getStartIdx();
+                    edidx = setPasteMethod.get(i).getEndIdx();
+                    fuc = setPasteMethod.get(i).getFunction();
+                    red = setPasteMethod.get(i).isRad();
+                    stidx += len;
+                    edidx += len;
+                    sciMethods.add(ins, new SciMethod(stidx, edidx, fuc, red));
+                }
+            }
+            if (shouldClean) shouldClean = false;
+            if (show == null) s = "0";
+            else s = show;
+            s = s.substring(0,pos) + value + s.substring(pos);
+            show = s;
+            count = show.length();
+            textShow();
+            preResult();
+            return true;
+        }
+        else return false;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -1604,6 +1712,7 @@ public class MainActivity extends AppCompatActivity {
         SimpleFragmentPagerAdapter adapter = new SimpleFragmentPagerAdapter(getSupportFragmentManager());
         viewPager.setAdapter(adapter);
         viewPager.setCurrentItem(1);
+        viewPager.setOffscreenPageLimit(2);
         output = findViewById(R.id.display);
         imc = findViewById(R.id.topcover);
         pResult = findViewById(R.id.preResult);
@@ -1649,6 +1758,21 @@ public class MainActivity extends AppCompatActivity {
             clipboard.setPrimaryClip(clip);
             Toast.makeText(this, "Copied!", Toast.LENGTH_SHORT).show();
             return true;
+        }
+        else if (item.getItemId() == R.id.pasteTxt) {
+            ClipboardManager clipboard = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
+            if (clipboard.hasPrimaryClip()) {
+                ClipData.Item clipItem = Objects.requireNonNull(clipboard.getPrimaryClip()).getItemAt(0);
+                String pasteData = clipItem.getText().toString();
+                boolean isOut = setPasteData(pasteData);
+                if (isOut)Toast.makeText(this, "Pasted!", Toast.LENGTH_SHORT).show();
+                else Toast.makeText(this, "Can't Paste Here!", Toast.LENGTH_SHORT).show();
+                return true;
+            }
+            else {
+                Toast.makeText(this, "Clipboard Empty!", Toast.LENGTH_SHORT).show();
+                return false;
+            }
         }
         else if (item.getItemId() == R.id.copyPreResult) {
             ClipboardManager clipboard = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
