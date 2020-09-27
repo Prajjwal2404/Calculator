@@ -10,7 +10,9 @@ import android.os.Vibrator;
 import android.text.Layout;
 import android.util.Log;
 import android.util.TypedValue;
+import android.view.ActionMode;
 import android.view.ContextMenu;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewAnimationUtils;
@@ -65,9 +67,25 @@ public class MainActivity extends AppCompatActivity {
         String s = (String) click.getTag();
         if (cln) clean();
         if (shouldClean) shouldClean = false;
-        restore_sciMethod();
-        pos = output.getSelectionStart();
-        if (isOutside_sciMethods(pos)) showInput(s);
+        if (show != null && output.getText().toString().length() != show.length()) {
+            output.setText(R.string.error);
+            output.setSelection(output.length());
+            pResult.setText("");
+            pResult.setVisibility(View.GONE);
+            cln = true;
+        }
+        else if (show == null && !output.getText().toString().equals("0")) {
+            output.setText(R.string.error);
+            output.setSelection(output.length());
+            pResult.setText("");
+            pResult.setVisibility(View.GONE);
+            cln = true;
+        }
+        else {
+            restore_sciMethod();
+            pos = output.getSelectionStart();
+            if (isOutside_sciMethods(pos)) showInput(s);
+        }
     }
     private void showInput(String s) {
         if (count < 250) {
@@ -271,34 +289,48 @@ public class MainActivity extends AppCompatActivity {
         String s = (String) click.getTag();
         if (cln) clean();
         if (shouldClean) shouldClean = false;
-        restore_sciMethod();
-        pos = output.getSelectionStart();
-        if (count < 250 && isOutside_sciMethods(pos)) {
-            if (count == 0 && pos == 1) {
-                show = s;
-                count = count + s.length();
-                ++braces;
-                sciMethods.add(new SciMethod(0, s.length() - 1, s.substring(0, s.length() - 1), rd));
-            }
-            else if (count == 0 && pos == 0) {
-                show = s + "0";
-                count = count + s.length() + 1;
-                ++braces;
-                sciMethods.add(new SciMethod(0, s.length() - 1, s.substring(0, s.length() - 1), rd));
-            }
-            else if (count != 0) {
-                show = show.substring(0, pos) + s + show.substring(pos);
-                count = count + s.length();
-                ++braces;
-                update_sciMethods(pos - 1, s.length());
-                int i = insert_sciMethods(pos - 1);
-                if (i != sciMethods.size()) {
-                    sciMethods.add(i, new SciMethod(pos,  pos + s.length() - 1, s.substring(0, s.length() - 1), rd));
+        if (show != null && output.getText().toString().length() != show.length()) {
+            output.setText(R.string.error);
+            output.setSelection(output.length());
+            pResult.setText("");
+            pResult.setVisibility(View.GONE);
+            cln = true;
+        }
+        else if (show == null && !output.getText().toString().equals("0")) {
+            output.setText(R.string.error);
+            output.setSelection(output.length());
+            pResult.setText("");
+            pResult.setVisibility(View.GONE);
+            cln = true;
+        }
+        else {
+            restore_sciMethod();
+            pos = output.getSelectionStart();
+            if (count < 250 && isOutside_sciMethods(pos)) {
+                if (count == 0 && pos == 1) {
+                    show = s;
+                    count = count + s.length();
+                    ++braces;
+                    sciMethods.add(new SciMethod(0, s.length() - 1, s.substring(0, s.length() - 1), rd));
+                } else if (count == 0 && pos == 0) {
+                    show = s + "0";
+                    count = count + s.length() + 1;
+                    ++braces;
+                    sciMethods.add(new SciMethod(0, s.length() - 1, s.substring(0, s.length() - 1), rd));
+                } else if (count != 0) {
+                    show = show.substring(0, pos) + s + show.substring(pos);
+                    count = count + s.length();
+                    ++braces;
+                    update_sciMethods(pos - 1, s.length());
+                    int i = insert_sciMethods(pos - 1);
+                    if (i != sciMethods.size()) {
+                        sciMethods.add(i, new SciMethod(pos, pos + s.length() - 1, s.substring(0, s.length() - 1), rd));
+                    } else
+                        sciMethods.add(new SciMethod(pos, pos + s.length() - 1, s.substring(0, s.length() - 1), rd));
                 }
-                else sciMethods.add(new SciMethod(pos, pos + s.length() - 1, s.substring(0, s.length() - 1), rd));
+                textShow();
+                if (show != null) preResult();
             }
-            textShow();
-            if (show != null) preResult();
         }
     }
     private void update_sciMethods(int index, int length) {
@@ -361,6 +393,20 @@ public class MainActivity extends AppCompatActivity {
     public void result(View view) {
         Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
         v.vibrate(10);
+        if (show != null && output.getText().toString().length() != show.length()) {
+            output.setText(R.string.error);
+            output.setSelection(output.length());
+            pResult.setText("");
+            pResult.setVisibility(View.GONE);
+            cln = true;
+        }
+        else if (show == null && !output.getText().toString().equals("0")) {
+            output.setText(R.string.error);
+            output.setSelection(output.length());
+            pResult.setText("");
+            pResult.setVisibility(View.GONE);
+            cln = true;
+        }
         if (show != null && !cln && !shouldClean) {
             restore_sciMethod();
             shouldClean = true;
@@ -1170,33 +1216,50 @@ public class MainActivity extends AppCompatActivity {
         Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
         v.vibrate(10);
         if (cln || shouldClean) clean();
-        restore_sciMethod();
-        pos = output.getSelectionStart();
-        if (isOutside_sciMethods(pos))
-        if(show != null && pos != 0) {
-            boolean canBack = true;
-            if (show.charAt(pos - 1) == ')') ++braces;
-            else if (show.charAt(pos - 1) == '(') {
-                SciMethod sci = findSci(pos - 1);
-                if (sci != null) {
-                    int len = sci.getFunction().length() + 1;
-                    show = show.substring(0, pos - len) + show.substring(pos);
-                    count = count - len;
-                    sciMethods.remove(sci);
-                    removeUpdate_sciMethods(pos - 1, len);
-                    canBack = false;
+        if (show != null && output.getText().toString().length() != show.length()) {
+            output.setText(R.string.error);
+            output.setSelection(output.length());
+            pResult.setText("");
+            pResult.setVisibility(View.GONE);
+            cln = true;
+        }
+        else if (show == null && !output.getText().toString().equals("0")) {
+            output.setText(R.string.error);
+            output.setSelection(output.length());
+            pResult.setText("");
+            pResult.setVisibility(View.GONE);
+            cln = true;
+        }
+        else {
+            restore_sciMethod();
+            pos = output.getSelectionStart();
+            if (isOutside_sciMethods(pos)) {
+                if (show != null && pos != 0) {
+                    boolean canBack = true;
+                    if (show.charAt(pos - 1) == ')') ++braces;
+                    else if (show.charAt(pos - 1) == '(') {
+                        SciMethod sci = findSci(pos - 1);
+                        if (sci != null) {
+                            int len = sci.getFunction().length() + 1;
+                            show = show.substring(0, pos - len) + show.substring(pos);
+                            count = count - len;
+                            sciMethods.remove(sci);
+                            removeUpdate_sciMethods(pos - 1, len);
+                            canBack = false;
+                        }
+                        --braces;
+                    }
+                    if (canBack) {
+                        --count;
+                        show = show.substring(0, pos - 1) + show.substring(pos);
+                        removeUpdate_sciMethods(pos - 1, 1);
+                    }
+                    if (show.length() == 0 || show.equals("0")) clean();
+                    else {
+                        textShow();
+                        preResult();
+                    }
                 }
-                --braces;
-            }
-            if (canBack) {
-                --count;
-                show = show.substring(0, pos - 1) + show.substring(pos);
-                removeUpdate_sciMethods(pos - 1, 1);
-            }
-            if (show.length() == 0 || show.equals("0")) clean();
-            else {
-                textShow();
-                preResult();
             }
         }
     }
@@ -1502,45 +1565,61 @@ public class MainActivity extends AppCompatActivity {
     }
     public void setHistMethod(int position, String value) {
         if (cln) clean();
-        restore_sciMethod();
-        ArrayList<SciMethod> setMethod = histSciMethod.get(position);
-        pos = output.getSelectionStart();
-        if (isOutside_sciMethods(pos)) {
-            String s;
-            if (show == null) s = "0";
-            else s = show;
-            s = s.substring(0, pos);
-            int len = s.length();
-            int ins = -1;
-            for (int i = 0; i < sciMethods.size(); i++) {
-                if (sciMethods.get(i).getStartIdx() > (pos - 1)) {
-                    ins = i;
-                    break;
+        if (show != null && output.getText().toString().length() != show.length()) {
+            output.setText(R.string.error);
+            output.setSelection(output.length());
+            pResult.setText("");
+            pResult.setVisibility(View.GONE);
+            cln = true;
+        }
+        else if (show == null && !output.getText().toString().equals("0")) {
+            output.setText(R.string.error);
+            output.setSelection(output.length());
+            pResult.setText("");
+            pResult.setVisibility(View.GONE);
+            cln = true;
+        }
+        else {
+            restore_sciMethod();
+            ArrayList<SciMethod> setMethod = histSciMethod.get(position);
+            pos = output.getSelectionStart();
+            if (isOutside_sciMethods(pos)) {
+                String s;
+                if (show == null) s = "0";
+                else s = show;
+                s = s.substring(0, pos);
+                int len = s.length();
+                int ins = -1;
+                for (int i = 0; i < sciMethods.size(); i++) {
+                    if (sciMethods.get(i).getStartIdx() > (pos - 1)) {
+                        ins = i;
+                        break;
+                    }
                 }
-            }
-            update_sciMethods(pos - 1, value.length());
-            int stidx, edidx;
-            String fuc;
-            boolean red;
-            if (ins == -1) {
-                for (int i = 0; i < setMethod.size(); i++) {
-                    stidx = setMethod.get(i).getStartIdx();
-                    edidx = setMethod.get(i).getEndIdx();
-                    fuc = setMethod.get(i).getFunction();
-                    red = setMethod.get(i).isRad();
-                    stidx += len;
-                    edidx += len;
-                    sciMethods.add(new SciMethod(stidx, edidx, fuc, red));
-                }
-            } else {
-                for (int i = (setMethod.size() - 1); i >= 0; i--) {
-                    stidx = setMethod.get(i).getStartIdx();
-                    edidx = setMethod.get(i).getEndIdx();
-                    fuc = setMethod.get(i).getFunction();
-                    red = setMethod.get(i).isRad();
-                    stidx += len;
-                    edidx += len;
-                    sciMethods.add(ins, new SciMethod(stidx, edidx, fuc, red));
+                update_sciMethods(pos - 1, value.length());
+                int stidx, edidx;
+                String fuc;
+                boolean red;
+                if (ins == -1) {
+                    for (int i = 0; i < setMethod.size(); i++) {
+                        stidx = setMethod.get(i).getStartIdx();
+                        edidx = setMethod.get(i).getEndIdx();
+                        fuc = setMethod.get(i).getFunction();
+                        red = setMethod.get(i).isRad();
+                        stidx += len;
+                        edidx += len;
+                        sciMethods.add(new SciMethod(stidx, edidx, fuc, red));
+                    }
+                } else {
+                    for (int i = (setMethod.size() - 1); i >= 0; i--) {
+                        stidx = setMethod.get(i).getStartIdx();
+                        edidx = setMethod.get(i).getEndIdx();
+                        fuc = setMethod.get(i).getFunction();
+                        red = setMethod.get(i).isRad();
+                        stidx += len;
+                        edidx += len;
+                        sciMethods.add(ins, new SciMethod(stidx, edidx, fuc, red));
+                    }
                 }
             }
         }
@@ -1548,22 +1627,38 @@ public class MainActivity extends AppCompatActivity {
     public void setHist(String value, boolean isExp) {
         Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
         v.vibrate(10);
-        if (!isExp) {
-            if (cln) clean();
-            restore_sciMethod();
-            pos = output.getSelectionStart();
-            if (isOutside_sciMethods(pos)) update_sciMethods(pos - 1, value.length());
+        if (show != null && output.getText().toString().length() != show.length()) {
+            output.setText(R.string.error);
+            output.setSelection(output.length());
+            pResult.setText("");
+            pResult.setVisibility(View.GONE);
+            cln = true;
         }
-        if (isOutside_sciMethods(pos)) {
-            if (shouldClean) shouldClean = false;
-            String s;
-            if (show == null) s = "0";
-            else s = show;
-            s = s.substring(0,pos) + value + s.substring(pos);
-            show = s;
-            count = show.length();
-            textShow();
-            preResult();
+        else if (show == null && !output.getText().toString().equals("0")) {
+            output.setText(R.string.error);
+            output.setSelection(output.length());
+            pResult.setText("");
+            pResult.setVisibility(View.GONE);
+            cln = true;
+        }
+        else {
+            if (!isExp) {
+                if (cln) clean();
+                restore_sciMethod();
+                pos = output.getSelectionStart();
+                if (isOutside_sciMethods(pos)) update_sciMethods(pos - 1, value.length());
+            }
+            if (isOutside_sciMethods(pos)) {
+                if (shouldClean) shouldClean = false;
+                String s;
+                if (show == null) s = "0";
+                else s = show;
+                s = s.substring(0, pos) + value + s.substring(pos);
+                show = s;
+                count = show.length();
+                textShow();
+                preResult();
+            }
         }
     }
     private void removeHist(int position , int element) {
@@ -1597,110 +1692,124 @@ public class MainActivity extends AppCompatActivity {
     }
     private boolean setPasteData(String value) {
         if (cln) clean();
-        restore_sciMethod();
-        String trigFunc;
-        char ch;
-        ArrayList<SciMethod> setPasteMethod = new ArrayList<>();
-        for (int i = 0; i < value.length(); i++) {
-            ch = value.charAt(i);
-            if (ch == '(') {
-                if (i > 0) {
-                    trigFunc = String.valueOf(value.charAt(i - 1));
-                    if (trigFunc.equals("√") || trigFunc.equals("∛")) {
-                        setPasteMethod.add(new SciMethod(i - 1, i, trigFunc, rd));
-                        continue;
+        if (show != null && output.getText().toString().length() != show.length()) {
+            output.setText(R.string.error);
+            output.setSelection(output.length());
+            pResult.setText("");
+            pResult.setVisibility(View.GONE);
+            cln = true;
+            return false;
+        }
+        else if (show == null && !output.getText().toString().equals("0")) {
+            output.setText(R.string.error);
+            output.setSelection(output.length());
+            pResult.setText("");
+            pResult.setVisibility(View.GONE);
+            cln = true;
+            return false;
+        }
+        else {
+            restore_sciMethod();
+            String trigFunc;
+            char ch;
+            ArrayList<SciMethod> setPasteMethod = new ArrayList<>();
+            for (int i = 0; i < value.length(); i++) {
+                ch = value.charAt(i);
+                if (ch == '(') {
+                    if (i > 0) {
+                        trigFunc = String.valueOf(value.charAt(i - 1));
+                        if (trigFunc.equals("√") || trigFunc.equals("∛")) {
+                            setPasteMethod.add(new SciMethod(i - 1, i, trigFunc, rd));
+                            continue;
+                        }
                     }
-                }
-                if (i > 1) {
-                    trigFunc = value.substring(i - 2, i);
-                    if (trigFunc.equals("ln")) {
-                        setPasteMethod.add(new SciMethod(i - 2, i, trigFunc, rd));
-                        continue;
+                    if (i > 1) {
+                        trigFunc = value.substring(i - 2, i);
+                        if (trigFunc.equals("ln")) {
+                            setPasteMethod.add(new SciMethod(i - 2, i, trigFunc, rd));
+                            continue;
+                        }
                     }
-                }
-                if (i > 2) {
-                    trigFunc = value.substring(i - 3, i);
-                    if (trigFunc.equals("abs") || trigFunc.equals("log")) {
-                        setPasteMethod.add(new SciMethod(i - 3, i, trigFunc, rd));
-                        continue;
-                    }
-                    else if (trigFunc.equals("sin") || trigFunc.equals("cos") || trigFunc.equals("tan")
-                            || trigFunc.equals("csc") || trigFunc.equals("sec") || trigFunc.equals("cot")) {
-                        if (i > 3) {
-                            String trFunc = value.substring(i - 4, i);
-                            if (!trFunc.equals("asin") && !trFunc.equals("acos") && !trFunc.equals("atan")
-                                    && !trFunc.equals("acsc") && !trFunc.equals("asec") && !trFunc.equals("acot")) {
+                    if (i > 2) {
+                        trigFunc = value.substring(i - 3, i);
+                        if (trigFunc.equals("abs") || trigFunc.equals("log")) {
+                            setPasteMethod.add(new SciMethod(i - 3, i, trigFunc, rd));
+                            continue;
+                        } else if (trigFunc.equals("sin") || trigFunc.equals("cos") || trigFunc.equals("tan")
+                                || trigFunc.equals("csc") || trigFunc.equals("sec") || trigFunc.equals("cot")) {
+                            if (i > 3) {
+                                String trFunc = value.substring(i - 4, i);
+                                if (!trFunc.equals("asin") && !trFunc.equals("acos") && !trFunc.equals("atan")
+                                        && !trFunc.equals("acsc") && !trFunc.equals("asec") && !trFunc.equals("acot")) {
+                                    setPasteMethod.add(new SciMethod(i - 3, i, trigFunc, rd));
+                                    continue;
+                                }
+                            } else {
                                 setPasteMethod.add(new SciMethod(i - 3, i, trigFunc, rd));
                                 continue;
                             }
                         }
-                        else {
-                            setPasteMethod.add(new SciMethod(i - 3, i, trigFunc, rd));
-                            continue;
+                    }
+                    if (i > 3) {
+                        trigFunc = value.substring(i - 4, i);
+                        if (trigFunc.equals("asin") || trigFunc.equals("acos") || trigFunc.equals("atan") || trigFunc.equals("acsc")
+                                || trigFunc.equals("asec") || trigFunc.equals("acot") || trigFunc.equals("sinh") || trigFunc.equals("cosh")
+                                || trigFunc.equals("tanh") || trigFunc.equals("csch") || trigFunc.equals("sech") || trigFunc.equals("coth")) {
+                            setPasteMethod.add(new SciMethod(i - 4, i, trigFunc, rd));
                         }
                     }
                 }
-                if (i > 3) {
-                    trigFunc = value.substring(i - 4, i);
-                    if (trigFunc.equals("asin") || trigFunc.equals("acos") || trigFunc.equals("atan") || trigFunc.equals("acsc")
-                            || trigFunc.equals("asec") || trigFunc.equals("acot") || trigFunc.equals("sinh") || trigFunc.equals("cosh")
-                            || trigFunc.equals("tanh") || trigFunc.equals("csch") || trigFunc.equals("sech") || trigFunc.equals("coth")) {
-                        setPasteMethod.add(new SciMethod(i - 4, i, trigFunc, rd));
+            }
+            pos = output.getSelectionStart();
+            if (isOutside_sciMethods(pos)) {
+                String s;
+                if (show == null) s = "0";
+                else s = show;
+                s = s.substring(0, pos);
+                int len = s.length();
+                int ins = -1;
+                for (int i = 0; i < sciMethods.size(); i++) {
+                    if (sciMethods.get(i).getStartIdx() > (pos - 1)) {
+                        ins = i;
+                        break;
                     }
                 }
-            }
+                update_sciMethods(pos - 1, value.length());
+                int stidx, edidx;
+                String fuc;
+                boolean red;
+                if (ins == -1) {
+                    for (int i = 0; i < setPasteMethod.size(); i++) {
+                        stidx = setPasteMethod.get(i).getStartIdx();
+                        edidx = setPasteMethod.get(i).getEndIdx();
+                        fuc = setPasteMethod.get(i).getFunction();
+                        red = setPasteMethod.get(i).isRad();
+                        stidx += len;
+                        edidx += len;
+                        sciMethods.add(new SciMethod(stidx, edidx, fuc, red));
+                    }
+                } else {
+                    for (int i = (setPasteMethod.size() - 1); i >= 0; i--) {
+                        stidx = setPasteMethod.get(i).getStartIdx();
+                        edidx = setPasteMethod.get(i).getEndIdx();
+                        fuc = setPasteMethod.get(i).getFunction();
+                        red = setPasteMethod.get(i).isRad();
+                        stidx += len;
+                        edidx += len;
+                        sciMethods.add(ins, new SciMethod(stidx, edidx, fuc, red));
+                    }
+                }
+                if (shouldClean) shouldClean = false;
+                if (show == null) s = "0";
+                else s = show;
+                s = s.substring(0, pos) + value + s.substring(pos);
+                show = s;
+                count = show.length();
+                textShow();
+                preResult();
+                return true;
+            } else return false;
         }
-        pos = output.getSelectionStart();
-        if (isOutside_sciMethods(pos)) {
-            String s;
-            if (show == null) s = "0";
-            else s = show;
-            s = s.substring(0, pos);
-            int len = s.length();
-            int ins = -1;
-            for (int i = 0; i < sciMethods.size(); i++) {
-                if (sciMethods.get(i).getStartIdx() > (pos - 1)) {
-                    ins = i;
-                    break;
-                }
-            }
-            update_sciMethods(pos - 1, value.length());
-            int stidx, edidx;
-            String fuc;
-            boolean red;
-            if (ins == -1) {
-                for (int i = 0; i < setPasteMethod.size(); i++) {
-                    stidx = setPasteMethod.get(i).getStartIdx();
-                    edidx = setPasteMethod.get(i).getEndIdx();
-                    fuc = setPasteMethod.get(i).getFunction();
-                    red = setPasteMethod.get(i).isRad();
-                    stidx += len;
-                    edidx += len;
-                    sciMethods.add(new SciMethod(stidx, edidx, fuc, red));
-                }
-            }
-            else {
-                for (int i = (setPasteMethod.size() - 1); i >= 0; i--) {
-                    stidx = setPasteMethod.get(i).getStartIdx();
-                    edidx = setPasteMethod.get(i).getEndIdx();
-                    fuc = setPasteMethod.get(i).getFunction();
-                    red = setPasteMethod.get(i).isRad();
-                    stidx += len;
-                    edidx += len;
-                    sciMethods.add(ins, new SciMethod(stidx, edidx, fuc, red));
-                }
-            }
-            if (shouldClean) shouldClean = false;
-            if (show == null) s = "0";
-            else s = show;
-            s = s.substring(0,pos) + value + s.substring(pos);
-            show = s;
-            count = show.length();
-            textShow();
-            preResult();
-            return true;
-        }
-        else return false;
     }
 
     @Override
@@ -1739,6 +1848,28 @@ public class MainActivity extends AppCompatActivity {
             editor.putString(HISTORY_METHODS_KEY, gson.toJson(histSciMethod));
             editor.apply();
         }
+        output.setCustomSelectionActionModeCallback(new ActionMode.Callback() {
+            @Override
+            public boolean onCreateActionMode(ActionMode actionMode, Menu menu) {
+                return false;
+            }
+
+            @Override
+            public boolean onPrepareActionMode(ActionMode actionMode, Menu menu) {
+                menu.clear();
+                return false;
+            }
+
+            @Override
+            public boolean onActionItemClicked(ActionMode actionMode, MenuItem menuItem) {
+                return false;
+            }
+
+            @Override
+            public void onDestroyActionMode(ActionMode actionMode) {
+
+            }
+        });
     }
 
     @Override

@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Calculator</string>
     <string name="display">0</string>
+    <string name="error">Error</string>
     <string name="cover_up">covering</string>
     <string name="copy">COPY</string>
     <string name="history">history</string>
